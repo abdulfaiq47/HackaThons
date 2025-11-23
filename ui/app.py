@@ -400,19 +400,19 @@ class ModernStudentManagementUI:
         if 'current_page' not in st.session_state:
             st.session_state.current_page = "main_dashboard"
         
-        # Clean White Theme CSS
+        # Enhanced White Theme CSS with Better Text Contrast
         st.markdown("""
         <style>
         /* Main background - Clean White Theme */
         .main {
             background: #FFFFFF;
-            color: #262730;
+            color: #1F2937;
         }
         
-        /* Headers */
+        /* Headers with Better Contrast */
         .main-header {
             font-size: 3.5rem;
-            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
+            background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 50%, #3730A3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
@@ -424,13 +424,18 @@ class ModernStudentManagementUI:
         
         .section-header {
             font-size: 2rem;
-            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1E3A8A;
             border-bottom: 3px solid #3B82F6;
             padding-bottom: 0.5rem;
             margin: 2rem 0 1.5rem 0;
             font-weight: 700;
+        }
+        
+        .subsection-header {
+            font-size: 1.5rem;
+            color: #374151;
+            margin: 1.5rem 0 1rem 0;
+            font-weight: 600;
         }
         
         /* Modern Card Design - Clean White */
@@ -438,7 +443,7 @@ class ModernStudentManagementUI:
             background: #FFFFFF;
             padding: 1.5rem;
             border-radius: 16px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid #E5E7EB;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             margin-bottom: 1.5rem;
             position: relative;
@@ -464,11 +469,11 @@ class ModernStudentManagementUI:
         
         /* Enhanced Metric Cards */
         .metric-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
             padding: 2rem 1.5rem;
             border-radius: 16px;
-            border: 1px solid #E2E8F0;
-            color: #1E293B;
+            border: 1px solid #E5E7EB;
+            color: #111827;
             text-align: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: relative;
@@ -483,7 +488,6 @@ class ModernStudentManagementUI:
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
         }
         
         .metric-card:hover {
@@ -501,11 +505,11 @@ class ModernStudentManagementUI:
         /* Enhanced Form Elements */
         .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
             background: #FFFFFF !important;
-            border: 2px solid #E2E8F0 !important;
+            border: 2px solid #D1D5DB !important;
             border-radius: 10px !important;
             padding: 12px 16px !important;
             font-size: 1rem !important;
-            color: #1E293B !important;
+            color: #111827 !important;
             transition: all 0.3s ease !important;
         }
         
@@ -516,17 +520,17 @@ class ModernStudentManagementUI:
         }
         
         .stTextInput input::placeholder, .stNumberInput input::placeholder {
-            color: #64748B !important;
+            color: #6B7280 !important;
         }
         
         /* Enhanced Tabs */
         .stTabs [data-baseweb="tab-list"] {
             gap: 8px;
-            background: #F8FAFC;
+            background: #F9FAFB;
             padding: 12px;
             border-radius: 12px;
             margin-bottom: 2rem;
-            border: 1px solid #E2E8F0;
+            border: 1px solid #E5E7EB;
         }
         
         .stTabs [data-baseweb="tab"] {
@@ -535,7 +539,7 @@ class ModernStudentManagementUI:
             font-weight: 600;
             transition: all 0.3s ease;
             background: transparent;
-            color: #64748B;
+            color: #6B7280;
         }
         
         .stTabs [data-baseweb="tab"][aria-selected="true"] {
@@ -653,7 +657,7 @@ class ModernStudentManagementUI:
             border: 1px solid #10B981;
         }
         .status-good { 
-            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            background: linear-gradient(135-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
             color: #1E40AF;
             border: 1px solid #3B82F6;
         }
@@ -688,8 +692,8 @@ class ModernStudentManagementUI:
         /* Dataframe Styling */
         .dataframe {
             background: #FFFFFF !important;
-            color: #1E293B !important;
-            border: 1px solid #E2E8F0 !important;
+            color: #1F2937 !important;
+            border: 1px solid #E5E7EB !important;
         }
         
         .dataframe th {
@@ -699,8 +703,8 @@ class ModernStudentManagementUI:
         
         .dataframe td {
             background: #FFFFFF !important;
-            color: #1E293B !important;
-            border-color: #E2E8F0 !important;
+            color: #1F2937 !important;
+            border-color: #E5E7EB !important;
         }
         
         /* Animation for loading */
@@ -717,22 +721,22 @@ class ModernStudentManagementUI:
         .st-bb { background-color: transparent; }
         .st-at { background-color: #3B82F6; }
         .st-bh { background-color: #FFFFFF; }
-        .st-bi { border-color: #E2E8F0; }
+        .st-bi { border-color: #E5E7EB; }
         
-        /* Make all text visible */
+        /* Make all text visible with better contrast */
         .stMarkdown, .stText, .stTitle, .stHeader, .stSubheader {
-            color: #1E293B !important;
+            color: #1F2937 !important;
         }
         
         /* Selectbox dropdown styling */
         .stSelectbox [data-baseweb="select"] {
             background: #FFFFFF !important;
-            color: #1E293B !important;
+            color: #1F2937 !important;
         }
         
         .stSelectbox [data-baseweb="popover"] {
             background: #FFFFFF !important;
-            border: 1px solid #E2E8F0 !important;
+            border: 1px solid #E5E7EB !important;
         }
         
         /* Number input styling */
@@ -774,64 +778,68 @@ class ModernStudentManagementUI:
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         
-        .sidebar-btn-dashboard {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
-        }
-        
-        .sidebar-btn-registration {
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
-        }
-        
-        .sidebar-btn-registration:hover {
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-        
-        .sidebar-btn-directory {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
-        }
-        
-        .sidebar-btn-directory:hover {
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-        }
-        
-        .sidebar-btn-analytics {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-        }
-        
-        .sidebar-btn-analytics:hover {
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-        }
-        
-        .sidebar-btn-management {
-            background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
-        }
-        
-        .sidebar-btn-management:hover {
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-        }
-        
-        .sidebar-btn-data {
-            background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
-            box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2);
-        }
-        
-        .sidebar-btn-data:hover {
-            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
-        }
-        
         /* Sidebar styling */
         .css-1d391kg, .css-1lcbmhc {
-            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-            border-right: 1px solid #E2E8F0;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            border-right: 1px solid #E5E7EB;
         }
         
         /* Main content area padding */
         .main .block-container {
             padding-top: 2rem;
+        }
+        
+        /* Better text contrast for all elements */
+        .stButton > button {
+            color: #FFFFFF !important;
+        }
+        
+        .stMetric {
+            color: #1F2937 !important;
+        }
+        
+        .stMetric label {
+            color: #6B7280 !important;
+        }
+        
+        .stMetric value {
+            color: #111827 !important;
+        }
+        
+        /* Chart text contrast */
+        .js-plotly-plot .plotly .main-svg {
+            background: #FFFFFF !important;
+        }
+        
+        /* Alternative header styling for better visibility */
+        .alt-header-1 {
+            font-size: 2.5rem;
+            color: #1E3A8A;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .alt-header-2 {
+            font-size: 2rem;
+            color: #1E40AF;
+            font-weight: 700;
+            border-left: 5px solid #3B82F6;
+            padding-left: 1rem;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .alt-header-3 {
+            font-size: 1.5rem;
+            color: #374151;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 0.5rem;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -851,47 +859,35 @@ class ModernStudentManagementUI:
             margin-bottom: 1.5rem;
             padding: 1rem 0;
         }
-        
-        /* Sidebar background */
-        .css-1d391kg, .css-1lcbmhc {
-            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-            border-right: 1px solid #E2E8F0;
-        }
         </style>
         """, unsafe_allow_html=True)
         
         st.sidebar.markdown('<div class="sidebar-header">🎓 Academic System</div>', unsafe_allow_html=True)
         st.sidebar.markdown("---")
         
-        # Navigation buttons in the exact order from your image
+        # Navigation buttons
         st.sidebar.markdown('<div class="nav-container">', unsafe_allow_html=True)
         
-        # Dashboard Overview Button
         if st.sidebar.button("📊 Dashboard Overview", key="nav_dashboard", use_container_width=True):
             st.session_state.current_page = "main_dashboard"
             st.rerun()
         
-        # Student Registration Button
         if st.sidebar.button("👤 Student Registration", key="nav_registration", use_container_width=True):
             st.session_state.current_page = "student_registration"
             st.rerun()
         
-        # Student Directory Button
         if st.sidebar.button("📋 Student Directory", key="nav_directory", use_container_width=True):
             st.session_state.current_page = "student_directory"
             st.rerun()
         
-        # Advanced Analytics Button
         if st.sidebar.button("📈 Advanced Analytics", key="nav_analytics", use_container_width=True):
             st.session_state.current_page = "advanced_analytics"
             st.rerun()
         
-        # Student Management Button
         if st.sidebar.button("⚙️ Student Management", key="nav_management", use_container_width=True):
             st.session_state.current_page = "student_management"
             st.rerun()
         
-        # Data Operations Button
         if st.sidebar.button("💾 Data Operations", key="nav_data", use_container_width=True):
             st.session_state.current_page = "data_operations"
             st.rerun()
@@ -905,44 +901,31 @@ class ModernStudentManagementUI:
         stats = self.manager.get_statistics()
         
         st.sidebar.markdown(f"""
-        <div class="modern-card" style="margin-bottom: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Total Students</span>
-                <span style="font-weight: 800; font-size: 1.4rem; color: #3B82F6;">{stats.get('total_students', 0)}</span>
-            </div>
-        </div>
+
         """, unsafe_allow_html=True)
         
         if stats:
             st.sidebar.markdown(f"""
-            <div class="modern-card" style="margin-bottom: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Avg Performance</span>
-                    <span style="font-weight: 800; font-size: 1.4rem; color: #10B981;">{stats.get('average_performance', 0)}%</span>
-                </div>
-            </div>
+      
             """, unsafe_allow_html=True)
             
             st.sidebar.markdown(f"""
             <div class="modern-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>Avg Attendance</span>
-                    <span style="font-weight: 800; font-size: 1.4rem; color: #3B82F6;">{stats.get('average_attendance', 0)}%</span>
+                    <span style="color: #374151;">Avg Attendance</span>
+                    <span style="font-weight: 800; font-size: 1.4rem; color: #1E40AF;">{stats.get('average_attendance', 0)}%</span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
         
         st.sidebar.markdown("---")
         st.sidebar.markdown("""
-        <div class="modern-card">
-            <small>🎓 Academic Management System v4.0</small><br>
-            <small style="color: #64748B;">Modern • Responsive • Powerful</small><br>
-            <small style="color: #64748B;">Built with Streamlit</small>
-        </div>
+  
         """, unsafe_allow_html=True)
 
     def show_main_dashboard(self):
-        st.markdown('<h2 class="section-header">📊 Dashboard Overview</h2>', unsafe_allow_html=True)
+        # Using alternative header styling
+        st.markdown('<div class="alt-header-1">📊 Dashboard Overview</div>', unsafe_allow_html=True)
         
         stats = self.manager.get_statistics()
         performance_analysis = self.manager.get_performance_analysis()
@@ -961,27 +944,27 @@ class ModernStudentManagementUI:
         with col1:
             st.markdown(f"""
             <div class="metric-card metric-card-1">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">🎓 TOTAL STUDENTS</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['total_students']}</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">Active Learners</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">🎓 TOTAL STUDENTS</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['total_students']}</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">Active Learners</div>
             </div>
             """, unsafe_allow_html=True)
         
         with col2:
             st.markdown(f"""
             <div class="metric-card metric-card-2">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📈 AVG PERFORMANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['average_performance']}%</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">{stats['performance_trend']} Trend</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📈 AVG PERFORMANCE</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['average_performance']}%</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">{stats['performance_trend']} Trend</div>
             </div>
             """, unsafe_allow_html=True)
         
         with col3:
             st.markdown(f"""
             <div class="metric-card metric-card-3">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">✅ PASS RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">Overall Success</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">✅ PASS RATE</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">Overall Success</div>
             </div>
             """, unsafe_allow_html=True)
         
@@ -991,38 +974,37 @@ class ModernStudentManagementUI:
         with col4:
             st.markdown(f"""
             <div class="metric-card metric-card-4">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">⭐ EXCELLENCE RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{performance_analysis.get('excellence_rate', 0):.1f}%</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">90%+ Performers</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">⭐ EXCELLENCE RATE</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{performance_analysis.get('excellence_rate', 0):.1f}%</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">90%+ Performers</div>
             </div>
             """, unsafe_allow_html=True)
         
         with col5:
             st.markdown(f"""
             <div class="metric-card metric-card-5">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📅 AVG ATTENDANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['average_attendance']}%</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">Class Participation</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📅 AVG ATTENDANCE</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['average_attendance']}%</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">Class Participation</div>
             </div>
             """, unsafe_allow_html=True)
         
         with col6:
             st.markdown(f"""
             <div class="metric-card metric-card-6">
-                <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📚 TOP PERFORMER</div>
-                <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; color: #1E293B;">{stats['top_performer']}</div>
-                <div style="font-size: 0.8rem; opacity: 0.9;">Leading Student</div>
+                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📚 TOP PERFORMER</div>
+                <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; color: #111827;">{stats['top_performer']}</div>
+                <div style="font-size: 0.8rem; color: #6B7280;">Leading Student</div>
             </div>
             """, unsafe_allow_html=True)
         
         # Performance Analytics Section
         st.markdown("---")
-        st.markdown('<h3 class="section-header">📈 Performance Analytics</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-2">📈 Performance Analytics</div>', unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
         with col1:
-            # Performance Distribution Pie Chart
             if any(stats['status_distribution'].values()):
                 status_data = stats['status_distribution']
                 colors = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444']
@@ -1045,13 +1027,12 @@ class ModernStudentManagementUI:
                     height=500,
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(size=12, color='#1E293B'),
+                    font=dict(size=12, color='#1F2937'),
                     legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
                 )
                 st.plotly_chart(fig_status, use_container_width=True)
         
         with col2:
-            # Grade Distribution Bar Chart
             if any(stats['grade_distribution'].values()):
                 grade_data = stats['grade_distribution']
                 colors = ['#10B981', '#3B82F6', '#F59E0B', '#F97316', '#EF4444']
@@ -1071,7 +1052,7 @@ class ModernStudentManagementUI:
                     height=500,
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(size=12, color='#1E293B')
+                    font=dict(size=12, color='#1F2937')
                 )
                 fig_grade.update_traces(
                     marker_line_color='white',
@@ -1082,7 +1063,7 @@ class ModernStudentManagementUI:
                 st.plotly_chart(fig_grade, use_container_width=True)
 
     def show_student_registration(self):
-        st.markdown('<h2 class="section-header">👤 Student Registration</h2>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-1">👤 Student Registration</div>', unsafe_allow_html=True)
         
         with st.form("student_registration_form", clear_on_submit=True):
             with st.container():
@@ -1091,14 +1072,14 @@ class ModernStudentManagementUI:
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown("### 👤 Personal Information")
+                    st.markdown('<div class="alt-header-3">👤 Personal Information</div>', unsafe_allow_html=True)
                     name = st.text_input("Full Name *", placeholder="Enter student's full name", key="reg_name")
                     age = st.number_input("Age *", min_value=15, max_value=70, value=18, key="reg_age")
                     email = st.text_input("Email Address *", placeholder="student@institution.edu", key="reg_email")
                     phone = st.text_input("Phone Number", placeholder="+1 (555) 123-4567", key="reg_phone")
                 
                 with col2:
-                    st.markdown("### 🎓 Academic Information")
+                    st.markdown('<div class="alt-header-3">🎓 Academic Information</div>', unsafe_allow_html=True)
                     course = st.text_input("Course/Program *", placeholder="Computer Science", key="reg_course")
                     department = st.selectbox("Department *", [
                         "Computer Science", "Engineering", "Mathematics", "Physics", 
@@ -1166,7 +1147,7 @@ class ModernStudentManagementUI:
                             st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
 
     def show_student_directory(self):
-        st.markdown('<h2 class="section-header">📋 Student Directory</h2>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-1">📋 Student Directory</div>', unsafe_allow_html=True)
         
         # Enhanced Search and Filters
         col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
@@ -1233,7 +1214,7 @@ class ModernStudentManagementUI:
         
         df = pd.DataFrame(data)
         
-        st.subheader(f"{title} ({len(students)} records)")
+        st.markdown(f'<div class="alt-header-2">{title} ({len(students)} records)</div>', unsafe_allow_html=True)
         
         # Display with enhanced styling
         for _, student in df.iterrows():
@@ -1271,7 +1252,7 @@ class ModernStudentManagementUI:
         
         # Summary statistics
         st.markdown("---")
-        st.markdown('<h4>📊 Summary Statistics</h4>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-3">📊 Summary Statistics</div>', unsafe_allow_html=True)
         
         if students:
             col1, col2, col3, col4 = st.columns(4)
@@ -1289,7 +1270,7 @@ class ModernStudentManagementUI:
                 st.metric("Excellent Students", excellent_count)
 
     def show_advanced_analytics(self):
-        st.markdown('<h2 class="section-header">📈 Advanced Analytics</h2>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-1">📈 Advanced Analytics</div>', unsafe_allow_html=True)
         
         stats = self.manager.get_statistics()
         performance_analysis = self.manager.get_performance_analysis()
@@ -1303,7 +1284,7 @@ class ModernStudentManagementUI:
             return
         
         # Correlation Analysis
-        st.markdown("### 📈 Performance Insights")
+        st.markdown('<div class="alt-header-2">📈 Performance Insights</div>', unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns(3)
         
@@ -1320,12 +1301,11 @@ class ModernStudentManagementUI:
                      f"{performance_analysis.get('min_performance', 0):.0f}-{performance_analysis.get('max_performance', 0):.0f}%")
         
         # Detailed Distribution Analysis
-        st.markdown("### 🎯 Detailed Distributions")
+        st.markdown('<div class="alt-header-2">🎯 Detailed Distributions</div>', unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         
         with col1:
-            # Attendance Distribution
             if any(stats['attendance_distribution'].values()):
                 attendance_data = stats['attendance_distribution']
                 fig_attendance = px.bar(
@@ -1341,12 +1321,11 @@ class ModernStudentManagementUI:
                     showlegend=False,
                     height=400,
                     paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(color='#1E293B')
+                    font=dict(color='#1F2937')
                 )
                 st.plotly_chart(fig_attendance, use_container_width=True)
         
         with col2:
-            # Department Distribution
             if stats['department_distribution']:
                 dept_data = stats['department_distribution']
                 fig_dept = px.pie(
@@ -1358,12 +1337,12 @@ class ModernStudentManagementUI:
                 fig_dept.update_layout(
                     height=400,
                     paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(color='#1E293B')
+                    font=dict(color='#1F2937')
                 )
                 st.plotly_chart(fig_dept, use_container_width=True)
 
     def show_student_management(self):
-        st.markdown('<h2 class="section-header">⚙️ Student Management</h2>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-1">⚙️ Student Management</div>', unsafe_allow_html=True)
         
         tab1, tab2, tab3 = st.tabs(["✏️ Update Records", "🗑️ Delete Records", "🎯 Bulk Operations"])
         
@@ -1377,7 +1356,7 @@ class ModernStudentManagementUI:
             self._show_bulk_operations_tab()
 
     def _show_update_student_tab(self):
-        st.subheader("Update Student Information")
+        st.markdown('<div class="alt-header-2">Update Student Information</div>', unsafe_allow_html=True)
         
         if not self.manager.students:
             st.markdown("""
@@ -1403,14 +1382,14 @@ class ModernStudentManagementUI:
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown("### 👤 Personal Information")
+                    st.markdown('<div class="alt-header-3">👤 Personal Information</div>', unsafe_allow_html=True)
                     new_name = st.text_input("Full Name", value=student.name)
                     new_age = st.number_input("Age", min_value=15, max_value=70, value=student.age)
                     new_email = st.text_input("Email", value=student.email)
                     new_phone = st.text_input("Phone", value=student.phone)
                 
                 with col2:
-                    st.markdown("### 🎓 Academic Information")
+                    st.markdown('<div class="alt-header-3">🎓 Academic Information</div>', unsafe_allow_html=True)
                     new_course = st.text_input("Course", value=student.course)
                     new_department = st.text_input("Department", value=student.department)
                     new_grade = st.selectbox("Grade", [g.value for g in Grade], 
@@ -1450,7 +1429,7 @@ class ModernStudentManagementUI:
                             st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
 
     def _show_delete_student_tab(self):
-        st.subheader("Delete Student Record")
+        st.markdown('<div class="alt-header-2">Delete Student Record</div>', unsafe_allow_html=True)
         
         if not self.manager.students:
             st.markdown("""
@@ -1472,7 +1451,7 @@ class ModernStudentManagementUI:
             
             st.markdown(f"""
             <div class="modern-card">
-                <h4>Student Details</h4>
+                <h4 style="color: #1F2937;">Student Details</h4>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div><strong>Name:</strong> {student.name}</div>
                     <div><strong>Email:</strong> {student.email}</div>
@@ -1499,7 +1478,7 @@ class ModernStudentManagementUI:
                         st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
 
     def _show_bulk_operations_tab(self):
-        st.subheader("Bulk Operations")
+        st.markdown('<div class="alt-header-2">Bulk Operations</div>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="info-message">
@@ -1551,12 +1530,12 @@ class ModernStudentManagementUI:
                             st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
 
     def show_data_operations(self):
-        st.markdown('<h2 class="section-header">💾 Data Operations</h2>', unsafe_allow_html=True)
+        st.markdown('<div class="alt-header-1">💾 Data Operations</div>', unsafe_allow_html=True)
         
         tab1, tab2, tab3 = st.tabs(["📤 Export Data", "📥 Import Data", "⚙️ System Tools"])
         
         with tab1:
-            st.subheader("Export Student Data")
+            st.markdown('<div class="alt-header-2">Export Student Data</div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="modern-card">
                 Export all student records to CSV format for external analysis, reporting, or backup purposes.
@@ -1580,7 +1559,7 @@ class ModernStudentManagementUI:
                             st.markdown(href, unsafe_allow_html=True)
                             
                             # Show preview
-                            st.subheader("📋 Data Preview")
+                            st.markdown('<div class="alt-header-3">📋 Data Preview</div>', unsafe_allow_html=True)
                             df = pd.read_csv(io.StringIO(csv_data))
                             st.dataframe(df.head(10), use_container_width=True)
                         else:
@@ -1591,7 +1570,7 @@ class ModernStudentManagementUI:
                 st.metric("Data Size", f"{(len(str(self.manager.students)) / 1024):.1f} KB")
         
         with tab2:
-            st.subheader("Import Student Data")
+            st.markdown('<div class="alt-header-2">Import Student Data</div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="modern-card">
                 Import student records from CSV file. Ensure your CSV file follows the required format with columns:
@@ -1604,7 +1583,7 @@ class ModernStudentManagementUI:
             if uploaded_file is not None:
                 # Show preview
                 df_preview = pd.read_csv(uploaded_file)
-                st.subheader("📋 Uploaded File Preview")
+                st.markdown('<div class="alt-header-3">📋 Uploaded File Preview</div>', unsafe_allow_html=True)
                 st.dataframe(df_preview.head(5), use_container_width=True)
                 
                 if st.button("🚀 Import Data", use_container_width=True):
@@ -1616,14 +1595,14 @@ class ModernStudentManagementUI:
                         if success:
                             st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
                             if errors:
-                                st.markdown("### ⚠️ Import Warnings")
+                                st.markdown('<div class="alt-header-3">⚠️ Import Warnings</div>', unsafe_allow_html=True)
                                 for error in errors[:10]:  # Show first 10 errors
                                     st.markdown(f'<div class="warning-message">{error}</div>', unsafe_allow_html=True)
                         else:
                             st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
         
         with tab3:
-            st.subheader("System Tools")
+            st.markdown('<div class="alt-header-2">System Tools</div>', unsafe_allow_html=True)
             st.markdown("""
             <div class="modern-card">
                 Advanced system utilities for data management and maintenance.
