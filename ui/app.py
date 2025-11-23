@@ -751,7 +751,7 @@ class ModernStudentManagementUI:
             <div class="header-info">
                 <div class="welcome-message">Welcome: admin</div>
                 <div class="current-date">{current_date}</div>
-                <button class="logout-btn" onclick="window.location.href='?logout=true'">Log Out</button>
+                
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -775,9 +775,9 @@ class ModernStudentManagementUI:
                 <li><a href="?page=dashboard" class="{'active' if st.session_state.current_page == 'main_dashboard' else ''}">📊 Dashboard</a></li>
                 <li><a href="?page=students" class="{'active' if st.session_state.current_page == 'student_directory' else ''}">👥 Manage Students</a></li>
                 <li><a href="?page=add_student" class="{'active' if st.session_state.current_page == 'student_registration' else ''}">➕ Add Student</a></li>
-                <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 Analytics</a></li>
-                <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Management</a></li>
-                <li><a href="?page=data" class="{'active' if st.session_state.current_page == 'data_operations' else ''}">💾 Data Operations</a></li>
+                <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 About Data</a></li>
+                <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
+                
             </ul>
             <div class="sidebar-time">{current_time}</div>
         </div>
@@ -801,23 +801,76 @@ class ModernStudentManagementUI:
                 st.session_state.current_page = 'data_operations'
     
     def show_main_dashboard(self):
-        # Display the three main buttons
+        # Add custom CSS for dashboard buttons
         st.markdown("""
-        <div class="dashboard-buttons">
-            <button class="dashboard-btn" onclick="window.location.href='?page=students'">
-                <div style="font-size: 48px;">👥</div>
-                <span>Students</span>
-            </button>
-            <button class="dashboard-btn" onclick="window.location.href='?page=add_student'">
-                <div style="font-size: 48px;">➕</div>
-                <span>Add Student</span>
-            </button>
-            <button class="dashboard-btn" onclick="window.location.href='?logout=true'">
-                <div style="font-size: 48px;">🚪</div>
-                <span>Logout</span>
-            </button>
-        </div>
+        <style>
+        .dashboard-btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .stButton > button {
+            background: #1A1A1A;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 200px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .stButton > button:hover {
+            background: #2D2D2D;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+        
+        .stButton > button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .stButton > button span {
+            margin-top: 10px;
+            display: block;
+        }
+        </style>
         """, unsafe_allow_html=True)
+        
+        # Create two columns for buttons
+        col1, col2 = st.columns([1, 1])
+        
+        with col1:
+            # Students button
+            if st.button("👥\n\nStudents", 
+                       key="dashboard_students_btn",
+                       use_container_width=True):
+                st.session_state.current_page = "student_directory"
+                st.rerun()
+        
+        with col2:
+            # Add Student button
+            if st.button("➕\n\nAdd Student", 
+                       key="dashboard_add_student_btn",
+                       use_container_width=True):
+                st.session_state.current_page = "student_registration"
+                st.rerun()
+        
+        # Add spacing
+        st.markdown("<br><br>", unsafe_allow_html=True)
         
         # Add some statistics below the buttons
         stats = self.manager.get_statistics()
@@ -1085,7 +1138,7 @@ class ModernStudentManagementUI:
                 st.plotly_chart(fig_grade, use_container_width=True)
     
     def show_student_management(self):
-        st.markdown('<div class="card-title">⚙️ Student Management</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">⚙️ Update Student</div>', unsafe_allow_html=True)
         
         # Get all students
         students = self.manager.get_all_students()
