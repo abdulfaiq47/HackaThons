@@ -770,8 +770,6 @@ class ModernStudentManagementUI:
         st.markdown(f"""
         <div class="sidebar-container">
             <div class="sidebar-title">Navigation</div>
-            
-                    
             <ul class="sidebar-menu">
                 <li><a href="?page=dashboard" class="{'active' if st.session_state.current_page == 'main_dashboard' else ''}">📊 Dashboard</a></li>
                 <li><a href="?page=students" class="{'active' if st.session_state.current_page == 'student_directory' else ''}">👥 Manage Students</a></li>
