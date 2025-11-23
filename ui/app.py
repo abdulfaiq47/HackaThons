@@ -400,31 +400,31 @@ class ModernStudentManagementUI:
         if 'current_page' not in st.session_state:
             st.session_state.current_page = "main_dashboard"
         
-        # Modern CSS with Dark Blue Theme
+        # Clean White Theme CSS
         st.markdown("""
         <style>
-        /* Main background - Dark Blue Theme */
+        /* Main background - Clean White Theme */
         .main {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
-            color: #E2E8F0;
+            background: #FFFFFF;
+            color: #262730;
         }
         
         /* Headers */
         .main-header {
             font-size: 3.5rem;
-            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
             margin-bottom: 1rem;
             font-weight: 900;
             padding: 1rem;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .section-header {
             font-size: 2rem;
-            background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 100%);
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             border-bottom: 3px solid #3B82F6;
@@ -433,14 +433,13 @@ class ModernStudentManagementUI:
             font-weight: 700;
         }
         
-        /* Modern Card Design - Glass Morphism */
+        /* Modern Card Design - Clean White */
         .modern-card {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
+            background: #FFFFFF;
             padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
@@ -454,25 +453,24 @@ class ModernStudentManagementUI:
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
         }
         
         .modern-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3B82F6;
         }
         
         /* Enhanced Metric Cards */
         .metric-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
             padding: 2rem 1.5rem;
-            border-radius: 20px;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            color: #E2E8F0;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            color: #1E293B;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -481,87 +479,82 @@ class ModernStudentManagementUI:
         .metric-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
         }
         
-        .metric-card:hover::before {
-            left: 50%;
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.15);
         }
         
-        .metric-card-1 { border-color: rgba(96, 165, 250, 0.5); }
-        .metric-card-2 { border-color: rgba(139, 92, 246, 0.5); }
-        .metric-card-3 { border-color: rgba(14, 165, 233, 0.5); }
-        .metric-card-4 { border-color: rgba(34, 197, 94, 0.5); }
-        .metric-card-5 { border-color: rgba(249, 115, 22, 0.5); }
-        .metric-card-6 { border-color: rgba(236, 72, 153, 0.5); }
+        .metric-card-1 { border-top: 4px solid #3B82F6; }
+        .metric-card-2 { border-top: 4px solid #10B981; }
+        .metric-card-3 { border-top: 4px solid #F59E0B; }
+        .metric-card-4 { border-top: 4px solid #EF4444; }
+        .metric-card-5 { border-top: 4px solid #8B5CF6; }
+        .metric-card-6 { border-top: 4px solid #EC4899; }
         
-        /* Enhanced Form Elements - Fixed Text Color */
+        /* Enhanced Form Elements */
         .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
-            background: rgba(30, 41, 59, 0.8) !important;
-            border: 2px solid #475569 !important;
-            border-radius: 12px !important;
+            background: #FFFFFF !important;
+            border: 2px solid #E2E8F0 !important;
+            border-radius: 10px !important;
             padding: 12px 16px !important;
             font-size: 1rem !important;
-            color: #E2E8F0 !important;
+            color: #1E293B !important;
             transition: all 0.3s ease !important;
-            backdrop-filter: blur(10px) !important;
         }
         
         .stTextInput input:focus, .stNumberInput input:focus, .stSelectbox select:focus, .stTextArea textarea:focus {
-            border-color: #60A5FA !important;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+            border-color: #3B82F6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
             transform: translateY(-1px) !important;
-            background: rgba(30, 41, 59, 0.9) !important;
         }
         
         .stTextInput input::placeholder, .stNumberInput input::placeholder {
-            color: #94A3B8 !important;
+            color: #64748B !important;
         }
         
         /* Enhanced Tabs */
         .stTabs [data-baseweb="tab-list"] {
             gap: 8px;
-            background: rgba(30, 41, 59, 0.8);
+            background: #F8FAFC;
             padding: 12px;
-            border-radius: 16px;
+            border-radius: 12px;
             margin-bottom: 2rem;
-            border: 1px solid #475569;
+            border: 1px solid #E2E8F0;
         }
         
         .stTabs [data-baseweb="tab"] {
-            border-radius: 12px;
-            padding: 16px 24px;
+            border-radius: 8px;
+            padding: 12px 20px;
             font-weight: 600;
             transition: all 0.3s ease;
             background: transparent;
-            color: #94A3B8;
+            color: #64748B;
         }
         
         .stTabs [data-baseweb="tab"][aria-selected="true"] {
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
         }
         
         /* Custom Messages */
         .success-message {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
-            backdrop-filter: blur(10px);
-            color: #6EE7B7;
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            color: #065F46;
             padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 16px;
+            border-radius: 12px;
             border-left: 6px solid #10B981;
             margin: 1rem 0;
             position: relative;
             font-weight: 500;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid #A7F3D0;
         }
         
         .success-message::before {
@@ -576,16 +569,15 @@ class ModernStudentManagementUI:
         }
         
         .error-message {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
-            backdrop-filter: blur(10px);
-            color: #FCA5A5;
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            color: #991B1B;
             padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 16px;
+            border-radius: 12px;
             border-left: 6px solid #EF4444;
             margin: 1rem 0;
             position: relative;
             font-weight: 500;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid #FECACA;
         }
         
         .error-message::before {
@@ -600,16 +592,15 @@ class ModernStudentManagementUI:
         }
         
         .info-message {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
-            backdrop-filter: blur(10px);
-            color: #93C5FD;
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            color: #1E40AF;
             padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 16px;
+            border-radius: 12px;
             border-left: 6px solid #3B82F6;
             margin: 1rem 0;
             position: relative;
             font-weight: 500;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid #BFDBFE;
         }
         
         .info-message::before {
@@ -624,16 +615,15 @@ class ModernStudentManagementUI:
         }
         
         .warning-message {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
-            backdrop-filter: blur(10px);
-            color: #FCD34D;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            color: #92400E;
             padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 16px;
+            border-radius: 12px;
             border-left: 6px solid #F59E0B;
             margin: 1rem 0;
             position: relative;
             font-weight: 500;
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            border: 1px solid #FDE68A;
         }
         
         .warning-message::before {
@@ -654,34 +644,33 @@ class ModernStudentManagementUI:
             font-size: 0.8rem;
             font-weight: 600;
             display: inline-block;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .status-excellent { 
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.3) 100%);
-            color: #6EE7B7;
-            border: 1px solid rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            color: #065F46;
+            border: 1px solid #10B981;
         }
         .status-good { 
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.3) 100%);
-            color: #93C5FD;
-            border: 1px solid rgba(59, 130, 246, 0.5);
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            color: #1E40AF;
+            border: 1px solid #3B82F6;
         }
         .status-average { 
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.3) 100%);
-            color: #FCD34D;
-            border: 1px solid rgba(245, 158, 11, 0.5);
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            color: #92400E;
+            border: 1px solid #F59E0B;
         }
         .status-needs-improvement { 
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.3) 100%);
-            color: #FCA5A5;
-            border: 1px solid rgba(239, 68, 68, 0.5);
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            color: #991B1B;
+            border: 1px solid #EF4444;
         }
         
         /* Sidebar Enhancements */
         .sidebar-title {
-            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 1.8rem;
@@ -693,25 +682,25 @@ class ModernStudentManagementUI:
         
         /* Progress Bars */
         .stProgress > div > div {
-            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
         }
         
         /* Dataframe Styling */
         .dataframe {
-            background: rgba(30, 41, 59, 0.8) !important;
-            color: #E2E8F0 !important;
-            border: 1px solid #475569 !important;
+            background: #FFFFFF !important;
+            color: #1E293B !important;
+            border: 1px solid #E2E8F0 !important;
         }
         
         .dataframe th {
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%) !important;
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%) !important;
             color: white !important;
         }
         
         .dataframe td {
-            background: rgba(30, 41, 59, 0.9) !important;
-            color: #E2E8F0 !important;
-            border-color: #475569 !important;
+            background: #FFFFFF !important;
+            color: #1E293B !important;
+            border-color: #E2E8F0 !important;
         }
         
         /* Animation for loading */
@@ -727,23 +716,23 @@ class ModernStudentManagementUI:
         /* Streamlit native elements override */
         .st-bb { background-color: transparent; }
         .st-at { background-color: #3B82F6; }
-        .st-bh { background-color: rgba(30, 41, 59, 0.8); }
-        .st-bi { border-color: #475569; }
+        .st-bh { background-color: #FFFFFF; }
+        .st-bi { border-color: #E2E8F0; }
         
         /* Make all text visible */
         .stMarkdown, .stText, .stTitle, .stHeader, .stSubheader {
-            color: #E2E8F0 !important;
+            color: #1E293B !important;
         }
         
         /* Selectbox dropdown styling */
         .stSelectbox [data-baseweb="select"] {
-            background: rgba(30, 41, 59, 0.8) !important;
-            color: #E2E8F0 !important;
+            background: #FFFFFF !important;
+            color: #1E293B !important;
         }
         
         .stSelectbox [data-baseweb="popover"] {
-            background: rgba(30, 41, 59, 0.95) !important;
-            border: 1px solid #475569 !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
         }
         
         /* Number input styling */
@@ -763,75 +752,86 @@ class ModernStudentManagementUI:
         
         /* Beautiful sidebar buttons */
         .sidebar-btn {
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
             border: none;
-            border-radius: 12px;
-            padding: 16px 20px;
+            border-radius: 10px;
+            padding: 14px 18px;
             font-weight: 600;
             color: white;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-            font-size: 1rem;
-            margin: 6px 0;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+            font-size: 0.95rem;
+            margin: 4px 0;
             width: 100%;
-            text-align: center;
+            text-align: left;
             cursor: pointer;
         }
         
         .sidebar-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         
         .sidebar-btn-dashboard {
-            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
         }
         
         .sidebar-btn-registration {
             background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
         }
         
         .sidebar-btn-registration:hover {
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
         
         .sidebar-btn-directory {
             background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
         }
         
         .sidebar-btn-directory:hover {
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
         
         .sidebar-btn-analytics {
             background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
         
         .sidebar-btn-analytics:hover {
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
         }
         
         .sidebar-btn-management {
             background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
         }
         
         .sidebar-btn-management:hover {
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
         }
         
         .sidebar-btn-data {
             background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
-            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+            box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2);
         }
         
         .sidebar-btn-data:hover {
-            box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+        }
+        
+        /* Sidebar styling */
+        .css-1d391kg, .css-1lcbmhc {
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-right: 1px solid #E2E8F0;
+        }
+        
+        /* Main content area padding */
+        .main .block-container {
+            padding-top: 2rem;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -842,19 +842,20 @@ class ModernStudentManagementUI:
         st.sidebar.markdown("""
         <style>
         .sidebar-header {
-            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
         }
         
         /* Sidebar background */
         .css-1d391kg, .css-1lcbmhc {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+            border-right: 1px solid #E2E8F0;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -907,7 +908,7 @@ class ModernStudentManagementUI:
         <div class="modern-card" style="margin-bottom: 1rem;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span>Total Students</span>
-                <span style="font-weight: 800; font-size: 1.4rem; color: #60A5FA;">{stats.get('total_students', 0)}</span>
+                <span style="font-weight: 800; font-size: 1.4rem; color: #3B82F6;">{stats.get('total_students', 0)}</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -935,8 +936,8 @@ class ModernStudentManagementUI:
         st.sidebar.markdown("""
         <div class="modern-card">
             <small>🎓 Academic Management System v4.0</small><br>
-            <small style="color: #94A3B8;">Modern • Responsive • Powerful</small><br>
-            <small style="color: #94A3B8;">Built with Streamlit</small>
+            <small style="color: #64748B;">Modern • Responsive • Powerful</small><br>
+            <small style="color: #64748B;">Built with Streamlit</small>
         </div>
         """, unsafe_allow_html=True)
 
@@ -961,7 +962,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-1">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">🎓 TOTAL STUDENTS</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">{stats['total_students']}</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['total_students']}</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">Active Learners</div>
             </div>
             """, unsafe_allow_html=True)
@@ -970,7 +971,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-2">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📈 AVG PERFORMANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">{stats['average_performance']}%</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['average_performance']}%</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">{stats['performance_trend']} Trend</div>
             </div>
             """, unsafe_allow_html=True)
@@ -979,7 +980,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-3">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">✅ PASS RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">Overall Success</div>
             </div>
             """, unsafe_allow_html=True)
@@ -991,7 +992,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-4">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">⭐ EXCELLENCE RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">{performance_analysis.get('excellence_rate', 0):.1f}%</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{performance_analysis.get('excellence_rate', 0):.1f}%</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">90%+ Performers</div>
             </div>
             """, unsafe_allow_html=True)
@@ -1000,7 +1001,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-5">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📅 AVG ATTENDANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">{stats['average_attendance']}%</div>
+                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #1E293B;">{stats['average_attendance']}%</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">Class Participation</div>
             </div>
             """, unsafe_allow_html=True)
@@ -1009,7 +1010,7 @@ class ModernStudentManagementUI:
             st.markdown(f"""
             <div class="metric-card metric-card-6">
                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">📚 TOP PERFORMER</div>
-                <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2;">{stats['top_performer']}</div>
+                <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; color: #1E293B;">{stats['top_performer']}</div>
                 <div style="font-size: 0.8rem; opacity: 0.9;">Leading Student</div>
             </div>
             """, unsafe_allow_html=True)
@@ -1043,8 +1044,8 @@ class ModernStudentManagementUI:
                     showlegend=True,
                     height=500,
                     plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(15, 23, 42, 0.9)',
-                    font=dict(size=12, color='#E2E8F0'),
+                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
+                    font=dict(size=12, color='#1E293B'),
                     legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
                 )
                 st.plotly_chart(fig_status, use_container_width=True)
@@ -1069,8 +1070,8 @@ class ModernStudentManagementUI:
                     showlegend=False,
                     height=500,
                     plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(15, 23, 42, 0.9)',
-                    font=dict(size=12, color='#E2E8F0')
+                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
+                    font=dict(size=12, color='#1E293B')
                 )
                 fig_grade.update_traces(
                     marker_line_color='white',
@@ -1339,8 +1340,8 @@ class ModernStudentManagementUI:
                     yaxis_title="Number of Students",
                     showlegend=False,
                     height=400,
-                    paper_bgcolor='rgba(15, 23, 42, 0.9)',
-                    font=dict(color='#E2E8F0')
+                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
+                    font=dict(color='#1E293B')
                 )
                 st.plotly_chart(fig_attendance, use_container_width=True)
         
@@ -1356,8 +1357,8 @@ class ModernStudentManagementUI:
                 )
                 fig_dept.update_layout(
                     height=400,
-                    paper_bgcolor='rgba(15, 23, 42, 0.9)',
-                    font=dict(color='#E2E8F0')
+                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
+                    font=dict(color='#1E293B')
                 )
                 st.plotly_chart(fig_dept, use_container_width=True)
 
