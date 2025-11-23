@@ -2,6 +2,9 @@
 
 A comprehensive, modern Student Management System built with Python OOP principles and Streamlit for the user interface.
 
+## Live URL
+https://hackathons-fmbj2cq248e2lp6xfjdekx.streamlit.app/
+
 ## Features
 
 ### Create Student
@@ -29,3 +32,4 @@ you can you see the info of all data like How many students, Average Performance
 1. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
+
