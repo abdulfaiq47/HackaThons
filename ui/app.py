@@ -1034,10 +1034,7 @@ class ModernStudentManagementUI:
                 st.session_state.current_page = "student_registration"
                 st.rerun()
         
-        with col2:
-            if st.button("📊 View Analytics"):
-                st.session_state.current_page = "advanced_analytics"
-                st.rerun()
+       
     
     def show_advanced_analytics(self):
         st.markdown('<div class="card-title">📈 Advanced Analytics</div>', unsafe_allow_html=True)
