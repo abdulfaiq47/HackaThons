@@ -751,13 +751,9 @@ class ModernStudentManagementUI:
             <div class="header-info">
                 <div class="welcome-message">Welcome: admin</div>
                 <div class="current-date">{current_date}</div>
-                
             </div>
         </div>
         """, unsafe_allow_html=True)
-        
-        # Check for logout parameter
-        
     
     def show_sidebar(self):
         # Get current time
@@ -768,35 +764,30 @@ class ModernStudentManagementUI:
         st.markdown(f"""
         <div class="sidebar-container">
             <div class="sidebar-title">Navigation</div>
-            <ul class="sidebar-menu">
-                <li><a href="?page=dashboard" class="{'active' if st.session_state.current_page == 'main_dashboard' else ''}">📊 Dashboard</a></li>
-                <li><a href="?page=students" class="{'active' if st.session_state.current_page == 'student_directory' else ''}">👥 Manage Students</a></li>
-                <li><a href="?page=add_student" class="{'active' if st.session_state.current_page == 'student_registration' else ''}">➕ Add Student</a></li>
-                <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 About Data</a></li>
-                <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
-                
-            </ul>
             <div class="sidebar-time">Current Time: {current_time}</div>
-            
         </div>
         """, unsafe_allow_html=True)
         
-        # Check for page parameter in URL
-        query_params = st.experimental_get_query_params()
-        if 'page' in query_params:
-            page = query_params['page'][0]
-            if page == 'dashboard':
-                st.session_state.current_page = 'main_dashboard'
-            elif page == 'students':
-                st.session_state.current_page = 'student_directory'
-            elif page == 'add_student':
-                st.session_state.current_page = 'student_registration'
-            elif page == 'analytics':
-                st.session_state.current_page = 'advanced_analytics'
-            elif page == 'management':
-                st.session_state.current_page = 'student_management'
-            elif page == 'data':
-                st.session_state.current_page = 'data_operations'
+        # Use Streamlit buttons instead of HTML links
+        if st.button("📊 Dashboard", key="nav_dashboard", use_container_width=True):
+            st.session_state.current_page = 'main_dashboard'
+            st.rerun()
+        
+        if st.button("👥 Manage Students", key="nav_students", use_container_width=True):
+            st.session_state.current_page = 'student_directory'
+            st.rerun()
+        
+        if st.button("➕ Add Student", key="nav_add_student", use_container_width=True):
+            st.session_state.current_page = 'student_registration'
+            st.rerun()
+        
+        if st.button("📈 About Data", key="nav_analytics", use_container_width=True):
+            st.session_state.current_page = 'advanced_analytics'
+            st.rerun()
+        
+        if st.button("⚙️ Update Student", key="nav_management", use_container_width=True):
+            st.session_state.current_page = 'student_management'
+            st.rerun()
     
     def show_main_dashboard(self):
         # Add custom CSS for dashboard buttons
