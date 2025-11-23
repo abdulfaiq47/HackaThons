@@ -468,86 +468,154 @@ class ModernStudentManagementUI:
         }
         
         /* Enhanced Metric Cards */
-        .metric-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
-            padding: 2rem 1.5rem;
-            border-radius: 16px;
-            border: 1px solid #E5E7EB;
-            color: #111827;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.15);
-        }
-        
-        .metric-card-1 { border-top: 4px solid #3B82F6; }
-        .metric-card-2 { border-top: 4px solid #10B981; }
-        .metric-card-3 { border-top: 4px solid #F59E0B; }
-        .metric-card-4 { border-top: 4px solid #EF4444; }
-        .metric-card-5 { border-top: 4px solid #8B5CF6; }
-        .metric-card-6 { border-top: 4px solid #EC4899; }
-        
-        /* Enhanced Form Elements */
-        .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
-            background: #FFFFFF !important;
-            border: 2px solid #D1D5DB !important;
-            border-radius: 10px !important;
-            padding: 12px 16px !important;
-            font-size: 1rem !important;
-            color: #111827 !important;
-            transition: all 0.3s ease !important;
-        }
-        
-        .stTextInput input:focus, .stNumberInput input:focus, .stSelectbox select:focus, .stTextArea textarea:focus {
-            border-color: #3B82F6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-            transform: translateY(-1px) !important;
-        }
-        
-        .stTextInput input::placeholder, .stNumberInput input::placeholder {
-            color: #6B7280 !important;
-        }
-        
-        /* Enhanced Tabs */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 8px;
-            background: #F9FAFB;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 1px solid #E5E7EB;
-        }
-        
-        .stTabs [data-baseweb="tab"] {
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            background: transparent;
-            color: #6B7280;
-        }
-        
-        .stTabs [data-baseweb="tab"][aria-selected="true"] {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
-            color: white;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-        }
-        
+.metric-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+    border: 1px solid #E5E7EB;
+    color: #111827;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s ease;
+    box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Animated shine effect */
+.metric-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    transform: skewX(25deg);
+    transition: 0.7s;
+}
+
+/* Light bar on top */
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Hover effects */
+.metric-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 25px -4px rgba(0, 0, 0, 0.18);
+}
+
+.metric-card:hover::after {
+    left: 150%;
+}
+
+/* Colored top bars */
+.metric-card-1::before { background: #3B82F6; }
+.metric-card-2::before { background: #10B981; }
+.metric-card-3::before { background: #F59E0B; }
+.metric-card-4::before { background: #EF4444; }
+.metric-card-5::before { background: #8B5CF6; }
+.metric-card-6::before { background: #EC4899; }
+/* ============================
+   🔥 PREMIUM FORM ELEMENTS
+   ============================ */
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox select,
+.stTextArea textarea {
+    background: #FFFFFF !important;
+    border: 2px solid #E5E7EB !important;
+    border-radius: 14px !important;
+    padding: 14px 18px !important;
+    font-size: 1rem !important;
+    color: #111827 !important;
+    transition: all 0.28s ease !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
+}
+
+/* Focused Inputs — premium glow */
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stSelectbox select:focus,
+.stTextArea textarea:focus {
+    border-color: #3B82F6 !important;
+    box-shadow:
+        0 0 0 4px rgba(59, 130, 246, 0.15),
+        0 6px 18px -4px rgba(59,130,246,0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Placeholder styling */
+.stTextInput input::placeholder,
+.stNumberInput input::placeholder,
+.stTextArea textarea::placeholder {
+    color: #9CA3AF !important;
+    font-weight: 500 !important;
+}
+
+/* Hover effect */
+.stTextInput input:hover,
+.stNumberInput input:hover,
+.stSelectbox select:hover,
+.stTextArea textarea:hover {
+    border-color: #C7D2FE !important;
+    box-shadow: 0 3px 8px rgba(59,130,246,0.08) !important;
+}
+
+
+/* ============================
+   🔥 ENHANCED TABS
+   ============================ */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 10px;
+    background: #F9FAFB;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #E5E7EB;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+/* Tab default */
+.stTabs [data-baseweb="tab"] {
+    padding: 12px 22px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    background: #FFFFFF;
+    color: #4B5563;
+    border: 1px solid transparent;
+}
+
+/* Hover state */
+.stTabs [data-baseweb="tab"]:hover {
+    border-color: #D1D5DB;
+    background: #F3F4F6;
+    color: #1E40AF;
+}
+
+/* Active Tab */
+.stTabs [data-baseweb="tab"][aria-selected="true"] {
+    background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+    color: white;
+    border-color: #2563EB;
+    box-shadow: 
+        0 3px 12px rgba(59,130,246,0.25),
+        0 0 0 2px rgba(255,255,255,0.4) inset;
+    transform: translateY(-1px);
+}
+
         /* Custom Messages */
         .success-message {
             background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
@@ -895,8 +963,36 @@ class ModernStudentManagementUI:
         st.sidebar.markdown('</div>', unsafe_allow_html=True)
         
         # System overview in sidebar
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("### 📊 System Overview")
+        st.markdown("""
+<style>
+/* Make sidebar fixed at the top */
+[data-testid="stSidebar"] {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh !important;
+    width: 260px !important;
+    overflow-y: auto !important;
+    z-index: 9999;
+}
+
+/* Adjust main content so it doesn't hide under sidebar */
+.main {
+    margin-left: 260px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
+.css-1d391kg, .e1g8pov61 {
+    margin-left: 260px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+        
         
         stats = self.manager.get_statistics()
         
@@ -910,12 +1006,7 @@ class ModernStudentManagementUI:
             """, unsafe_allow_html=True)
             
             st.sidebar.markdown(f"""
-            <div class="modern-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: #374151;">Avg Attendance</span>
-                    <span style="font-weight: 800; font-size: 1.4rem; color: #1E40AF;">{stats.get('average_attendance', 0)}%</span>
-                </div>
-            </div>
+      
             """, unsafe_allow_html=True)
         
         st.sidebar.markdown("---")
@@ -1067,7 +1158,7 @@ class ModernStudentManagementUI:
         
         with st.form("student_registration_form", clear_on_submit=True):
             with st.container():
-                st.markdown('<div class="modern-card">', unsafe_allow_html=True)
+                
                 
                 col1, col2 = st.columns(2)
                 
