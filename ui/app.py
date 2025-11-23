@@ -752,11 +752,12 @@ class ModernStudentManagementUI:
                 <div class="welcome-message">Welcome: admin</div>
                 <div class="current-date">{current_date}</div>
                 
+                
             </div>
         </div>
         """, unsafe_allow_html=True)
         
-        # Check for logout parameter
+    
         
     
     def show_sidebar(self):
@@ -774,9 +775,10 @@ class ModernStudentManagementUI:
                 <li><a href="?page=add_student" class="{'active' if st.session_state.current_page == 'student_registration' else ''}">➕ Add Student</a></li>
                 <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 About Data</a></li>
                 <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
-                
+
             </ul>
-            <div class="sidebar-time">Current Time: {current_time}</div>
+                {current_time}
+            
             
         </div>
         """, unsafe_allow_html=True)
