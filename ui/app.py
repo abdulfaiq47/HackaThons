@@ -337,7 +337,7 @@ class AdvancedStudentManager:
             imported_count = 0
             errors = []
             
-            for index, row in df.iterrows():
+            for _, row in df.iterrows():
                 try:
                     student_data = {
                         'name': str(row.get('name', '')),
@@ -353,7 +353,7 @@ class AdvancedStudentManager:
                     
                     validation_errors = StudentValidator.validate_student_data(student_data)
                     if validation_errors:
-                        errors.append(f"Row {index + 1}: {', '.join(validation_errors)}")
+                        errors.append(f"Row {_ + 1}: {', '.join(validation_errors)}")
                         continue
                     
                     student_id = self.get_next_student_id()
@@ -375,7 +375,7 @@ class AdvancedStudentManager:
                     imported_count += 1
                     
                 except Exception as e:
-                    errors.append(f"Row {index + 1}: Error processing - {str(e)}")
+                    errors.append(f"Row {_ + 1}: Error processing - {str(e)}")
             
             self.clear_cache()
             return True, f"Successfully imported {imported_count} students", errors
@@ -390,7 +390,7 @@ class ModernStudentManagementUI:
     
     def setup_page(self):
         st.set_page_config(
-            page_title="Academic Management System",
+            page_title="Student Record Management System",
             layout="wide",
             initial_sidebar_state="expanded",
             page_icon="🎓"
@@ -400,775 +400,543 @@ class ModernStudentManagementUI:
         if 'current_page' not in st.session_state:
             st.session_state.current_page = "main_dashboard"
         
-        # Enhanced White Theme CSS with Better Text Contrast
+        # Black Theme CSS
         st.markdown("""
         <style>
-        /* Main background - Clean White Theme */
+        /* Main background - Black Theme */
         .main {
-            background: #FFFFFF;
-            color: #1F2937;
+            background: #121212;
+            color: #E0E0E0;
         }
         
-        /* Headers with Better Contrast */
-        .main-header {
-            font-size: 3.5rem;
-            background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 50%, #3730A3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-weight: 900;
-            padding: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .section-header {
-            font-size: 2rem;
-            color: #1E3A8A;
-            border-bottom: 3px solid #3B82F6;
-            padding-bottom: 0.5rem;
-            margin: 2rem 0 1.5rem 0;
-            font-weight: 700;
-        }
-        
-        .subsection-header {
-            font-size: 1.5rem;
-            color: #374151;
-            margin: 1.5rem 0 1rem 0;
-            font-weight: 600;
-        }
-        
-        /* Modern Card Design - Clean White */
-        .modern-card {
-            background: #FFFFFF;
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid #E5E7EB;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modern-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
-        }
-        
-        .modern-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #3B82F6;
-        }
-        
-        /* Enhanced Metric Cards */
-        .metric-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%);
-            padding: 2rem 1.5rem;
-            border-radius: 18px;
-            border: 1px solid #E5E7EB;
-            color: #111827;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.35s ease;
-            box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Animated shine effect */
-        .metric-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 150%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255,255,255,0.5),
-                transparent
-            );
-            transform: skewX(25deg);
-            transition: 0.7s;
-        }
-
-        /* Light bar on top */
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            border-radius: 0 0 4px 4px;
-        }
-
-        /* Hover effects */
-        .metric-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 25px -4px rgba(0, 0, 0, 0.18);
-        }
-
-        .metric-card:hover::after {
-            left: 150%;
-        }
-
-        /* Colored top bars */
-        .metric-card-1::before { background: #3B82F6; }
-        .metric-card-2::before { background: #10B981; }
-        .metric-card-3::before { background: #F59E0B; }
-        .metric-card-4::before { background: #EF4444; }
-        .metric-card-5::before { background: #8B5CF6; }
-        .metric-card-6::before { background: #EC4899; }
-        
-        /* Form Elements */
-        .stTextInput input,
-        .stNumberInput input,
-        .stSelectbox select,
-        .stTextArea textarea {
-            background: #FFFFFF !important;
-            border: 2px solid #E5E7EB !important;
-            border-radius: 14px !important;
-            padding: 14px 18px !important;
-            font-size: 1rem !important;
-            color: #111827 !important;
-            transition: all 0.28s ease !important;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
-        }
-
-        /* Focused Inputs */
-        .stTextInput input:focus,
-        .stNumberInput input:focus,
-        .stSelectbox select:focus,
-        .stTextArea textarea:focus {
-            border-color: #3B82F6 !important;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 6px 18px -4px rgba(59,130,246,0.25) !important;
-            transform: translateY(-2px) !important;
-        }
-
-        /* Placeholder styling */
-        .stTextInput input::placeholder,
-        .stNumberInput input::placeholder,
-        .stTextArea textarea::placeholder {
-            color: #9CA3AF !important;
-            font-weight: 500 !important;
-        }
-
-        /* Hover effect */
-        .stTextInput input:hover,
-        .stNumberInput input:hover,
-        .stSelectbox select:hover,
-        .stTextArea textarea:hover {
-            border-color: #C7D2FE !important;
-            box-shadow: 0 3px 8px rgba(59,130,246,0.08) !important;
-        }
-
-        /* Tabs */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 10px;
-            background: #F9FAFB;
-            padding: 14px;
-            border-radius: 14px;
-            border: 1px solid #E5E7EB;
-            margin-bottom: 2.2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-
-        /* Tab default */
-        .stTabs [data-baseweb="tab"] {
-            padding: 12px 22px;
-            font-weight: 600;
-            border-radius: 10px;
-            transition: all 0.25s ease;
-            background: #FFFFFF;
-            color: #4B5563;
-            border: 1px solid transparent;
-        }
-
-        /* Hover state */
-        .stTabs [data-baseweb="tab"]:hover {
-            border-color: #D1D5DB;
-            background: #F3F4F6;
-            color: #1E40AF;
-        }
-
-        /* Active Tab */
-        .stTabs [data-baseweb="tab"][aria-selected="true"] {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+        /* Header styling */
+        .header-container {
+            background: linear-gradient(to right, #1A1A1A, #2D2D2D);
             color: white;
-            border-color: #2563EB;
-            box-shadow: 0 3px 12px rgba(59,130,246,0.25), 0 0 0 2px rgba(255,255,255,0.4) inset;
-            transform: translateY(-1px);
-        }
-
-        /* Custom Messages */
-        .success-message {
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            color: #065F46;
-            padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 12px;
-            border-left: 6px solid #10B981;
-            margin: 1rem 0;
-            position: relative;
-            font-weight: 500;
-            border: 1px solid #A7F3D0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
         
-        .success-message::before {
-            content: "✓";
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
+        .header-title {
+            font-size: 24px;
             font-weight: bold;
-            font-size: 1.5rem;
-            color: #10B981;
         }
         
-        .error-message {
-            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-            color: #991B1B;
-            padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 12px;
-            border-left: 6px solid #EF4444;
-            margin: 1rem 0;
-            position: relative;
-            font-weight: 500;
-            border: 1px solid #FECACA;
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         
-        .error-message::before {
-            content: "✗";
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: #EF4444;
+        .welcome-message {
+            font-size: 16px;
         }
         
-        .info-message {
-            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
-            color: #1E40AF;
-            padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 12px;
-            border-left: 6px solid #3B82F6;
-            margin: 1rem 0;
-            position: relative;
-            font-weight: 500;
-            border: 1px solid #BFDBFE;
+        .current-date {
+            font-size: 14px;
+            opacity: 0.9;
         }
         
-        .info-message::before {
-            content: "ℹ";
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: #3B82F6;
+        .logout-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .warning-message {
-            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-            color: #92400E;
-            padding: 1.2rem 1.2rem 1.2rem 4rem;
-            border-radius: 12px;
-            border-left: 6px solid #F59E0B;
-            margin: 1rem 0;
-            position: relative;
-            font-weight: 500;
-            border: 1px solid #FDE68A;
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.2);
         }
         
-        .warning-message::before {
-            content: "⚠";
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: #F59E0B;
+        /* Sidebar styling */
+        .sidebar-container {
+            background: #1A1A1A;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
         
-        /* Status Badges */
-        .status-badge {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .status-excellent { 
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            color: #065F46;
-            border: 1px solid #10B981;
-        }
-        .status-good { 
-            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
-            color: #1E40AF;
-            border: 1px solid #3B82F6;
-        }
-        .status-average { 
-            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-            color: #92400E;
-            border: 1px solid #F59E0B;
-        }
-        .status-needs-improvement { 
-            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-            color: #991B1B;
-            border: 1px solid #EF4444;
-        }
-        
-        /* Sidebar Enhancements */
         .sidebar-title {
-            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.8rem;
-            font-weight: 800;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+        }
+        
+        .sidebar-time {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 16px;
             text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem;
         }
         
-        /* Progress Bars */
-        .stProgress > div > div {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
+        /* Main content area */
+        .content-container {
+            padding: 20px;
         }
         
-        /* Dataframe Styling */
+        /* Dashboard buttons */
+        .dashboard-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .dashboard-btn {
+            background: #1A1A1A;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .dashboard-btn:hover {
+            background: #2D2D2D;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+        
+        .dashboard-btn i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-btn span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        /* Override Streamlit styles */
+        .stApp {
+            background-color: #121212;
+        }
+        
+        .css-1d391kg, .css-1lcbmhc {
+            background: #121212;
+        }
+        
+        .stButton > button {
+            background-color: #1A1A1A;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 8px 15px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .stButton > button:hover {
+            background-color: #2D2D2D;
+        }
+        
+        /* Form styling */
+        .stForm {
+            background: #1A1A1A;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+        
+        .stTextInput > div > div > input,
+        .stNumberInput > div > div > input,
+        .stSelectbox > div > div > select {
+            background: #2D2D2D;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 8px;
+            color: white;
+        }
+        
+        /* Table styling */
         .dataframe {
-            background: #FFFFFF !important;
-            color: #1F2937 !important;
-            border: 1px solid #E5E7EB !important;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
         
         .dataframe th {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%) !important;
-            color: white !important;
+            background: #1A1A1A;
+            color: white;
         }
         
         .dataframe td {
-            background: #FFFFFF !important;
-            color: #1F2937 !important;
-            border-color: #E5E7EB !important;
-        }
-        
-        /* Animation for loading */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        /* Make all text visible with better contrast */
-        .stMarkdown, .stText, .stTitle, .stHeader, .stSubheader {
-            color: #1F2937 !important;
-        }
-        
-        /* Selectbox dropdown styling */
-        .stSelectbox [data-baseweb="select"] {
-            background: #FFFFFF !important;
-            color: #1F2937 !important;
-        }
-        
-        .stSelectbox [data-baseweb="popover"] {
-            background: #FFFFFF !important;
-            border: 1px solid #E5E7EB !important;
-        }
-        
-        /* Number input styling */
-        .stNumberInput button {
-            background: #3B82F6 !important;
-            color: white !important;
-            border: none !important;
-        }
-        
-        /* Navigation buttons container */
-        .nav-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 1rem 0;
-        }
-        
-        /* Beautiful sidebar buttons */
-        .sidebar-btn {
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
-            border: none;
-            border-radius: 10px;
-            padding: 14px 18px;
-            font-weight: 600;
+            background: #2D2D2D;
             color: white;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-            font-size: 0.95rem;
-            margin: 4px 0;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
         }
         
-        .sidebar-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        /* Card styling */
+        .card {
+            background: #1A1A1A;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
         
-        /* Better text contrast for all elements */
-        .stButton > button {
-            color: #FFFFFF !important;
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
         }
         
-        .stMetric {
-            color: #1F2937 !important;
+        /* Status badges */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
         }
         
-        .stMetric label {
-            color: #6B7280 !important;
+        .status-excellent {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81C784;
+            border: 1px solid rgba(76, 175, 80, 0.3);
         }
         
-        .stMetric value {
-            color: #111827 !important;
+        .status-good {
+            background: rgba(33, 150, 243, 0.2);
+            color: #64B5F6;
+            border: 1px solid rgba(33, 150, 243, 0.3);
         }
         
-        /* Chart text contrast */
+        .status-average {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FFB74D;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+        
+        .status-needs-improvement {
+            background: rgba(244, 67, 54, 0.2);
+            color: #E57373;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        /* Hide default Streamlit elements */
+        .stDeployButton {
+            display: none;
+        }
+        
+        /* Icon styling */
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        /* Streamlit text elements */
+        .stMarkdown, .stText, .stTitle, .stHeader, .stSubheader {
+            color: #E0E0E0 !important;
+        }
+        
+        /* Tabs styling */
+        .stTabs [data-baseweb="tab-list"] {
+            background: #1A1A1A;
+            border: 1px solid #333;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            background: #2D2D2D;
+            color: white;
+        }
+        
+        .stTabs [data-baseweb="tab"][aria-selected="true"] {
+            background: #1A1A1A;
+            color: white;
+        }
+        
+        /* Selectbox styling */
+        .stSelectbox div[data-baseweb="select"] {
+            background: #2D2D2D;
+            color: white;
+        }
+        
+        /* Slider styling */
+        .stSlider {
+            color: white;
+        }
+        
+        /* Chart background */
         .js-plotly-plot .plotly .main-svg {
-            background: #FFFFFF !important;
+            background: #1A1A1A !important;
         }
         
-        /* Alternative header styling for better visibility */
-        .alt-header-1 {
-            font-size: 2.5rem;
-            color: #1E3A8A;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: linear-gradient(135deg, #3B82F6 0%, #1E3A8A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Metric cards */
+        .metric {
+            background: #1A1A1A;
+            border: 1px solid #333;
         }
         
-        .alt-header-2 {
-            font-size: 2rem;
-            color: #1E40AF;
-            font-weight: 700;
-            border-left: 5px solid #3B82F6;
-            padding-left: 1rem;
-            margin: 2rem 0 1rem 0;
+        /* Expander styling */
+        .streamlit-expanderHeader {
+            background: #1A1A1A;
+            color: white;
         }
         
-        .alt-header-3 {
-            font-size: 1.5rem;
-            color: #374151;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem 0;
-            border-bottom: 2px solid #E5E7EB;
-            padding-bottom: 0.5rem;
+        .streamlit-expanderContent {
+            background: #2D2D2D;
+            color: white;
         }
         </style>
         """, unsafe_allow_html=True)
-        
-        st.markdown('<h1 class="main-header fade-in">🎓 Academic Management System</h1>', unsafe_allow_html=True)
     
-    def show_sidebar_menu(self):
-        st.sidebar.markdown('<div class="sidebar-title">🎓 Academic System</div>', unsafe_allow_html=True)
-        st.sidebar.markdown("---")
+    def show_header(self):
+        # Get current date and time
+        now = datetime.now()
+        current_date = now.strftime("%A, %B %d, %Y")
+        current_time = now.strftime("%I:%M:%S %p")
         
-        # Navigation buttons
-        st.sidebar.markdown('<div class="nav-container">', unsafe_allow_html=True)
+        # Header with title, welcome message, date, and logout
+        st.markdown(f"""
+        <div class="header-container">
+            <div class="header-title">Student Record Management System</div>
+            <div class="header-info">
+                <div class="welcome-message">Welcome: admin</div>
+                <div class="current-date">{current_date}</div>
+                <button class="logout-btn" onclick="window.location.href='?logout=true'">Log Out</button>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if st.sidebar.button("📊 Dashboard Overview", key="nav_dashboard", use_container_width=True):
-            st.session_state.current_page = "main_dashboard"
+        # Check for logout parameter
+        query_params = st.experimental_get_query_params()
+        if 'logout' in query_params and query_params['logout'][0] == 'true':
+            st.session_state.clear()
             st.rerun()
+    
+    def show_sidebar(self):
+        # Get current time
+        now = datetime.now()
+        current_time = now.strftime("%I:%M:%S %p")
         
-        if st.sidebar.button("👤 Student Registration", key="nav_registration", use_container_width=True):
-            st.session_state.current_page = "student_registration"
-            st.rerun()
+        # Sidebar with navigation menu
+        st.markdown(f"""
+        <div class="sidebar-container">
+            <div class="sidebar-title">Navigation</div>
+            <ul class="sidebar-menu">
+                <li><a href="?page=dashboard" class="{'active' if st.session_state.current_page == 'main_dashboard' else ''}">📊 Dashboard</a></li>
+                <li><a href="?page=students" class="{'active' if st.session_state.current_page == 'student_directory' else ''}">👥 Manage Students</a></li>
+                <li><a href="?page=add_student" class="{'active' if st.session_state.current_page == 'student_registration' else ''}">➕ Add Student</a></li>
+                <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 Analytics</a></li>
+                <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Management</a></li>
+                <li><a href="?page=data" class="{'active' if st.session_state.current_page == 'data_operations' else ''}">💾 Data Operations</a></li>
+            </ul>
+            <div class="sidebar-time">{current_time}</div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if st.sidebar.button("📋 Student Directory", key="nav_directory", use_container_width=True):
-            st.session_state.current_page = "student_directory"
-            st.rerun()
+        # Check for page parameter in URL
+        query_params = st.experimental_get_query_params()
+        if 'page' in query_params:
+            page = query_params['page'][0]
+            if page == 'dashboard':
+                st.session_state.current_page = 'main_dashboard'
+            elif page == 'students':
+                st.session_state.current_page = 'student_directory'
+            elif page == 'add_student':
+                st.session_state.current_page = 'student_registration'
+            elif page == 'analytics':
+                st.session_state.current_page = 'advanced_analytics'
+            elif page == 'management':
+                st.session_state.current_page = 'student_management'
+            elif page == 'data':
+                st.session_state.current_page = 'data_operations'
+    
+    def show_main_dashboard(self):
+        # Display the three main buttons
+        st.markdown("""
+        <div class="dashboard-buttons">
+            <button class="dashboard-btn" onclick="window.location.href='?page=students'">
+                <div style="font-size: 48px;">👥</div>
+                <span>Students</span>
+            </button>
+            <button class="dashboard-btn" onclick="window.location.href='?page=add_student'">
+                <div style="font-size: 48px;">➕</div>
+                <span>Add Student</span>
+            </button>
+            <button class="dashboard-btn" onclick="window.location.href='?logout=true'">
+                <div style="font-size: 48px;">🚪</div>
+                <span>Logout</span>
+            </button>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if st.sidebar.button("📈 Advanced Analytics", key="nav_analytics", use_container_width=True):
-            st.session_state.current_page = "advanced_analytics"
-            st.rerun()
-        
-        if st.sidebar.button("⚙️ Student Management", key="nav_management", use_container_width=True):
-            st.session_state.current_page = "student_management"
-            st.rerun()
-        
-        if st.sidebar.button("💾 Data Operations", key="nav_data", use_container_width=True):
-            st.session_state.current_page = "data_operations"
-            st.rerun()
-        
-        st.sidebar.markdown('</div>', unsafe_allow_html=True)
-        
-        # System overview in sidebar
+        # Add some statistics below the buttons
         stats = self.manager.get_statistics()
         
         if stats:
-            st.sidebar.markdown("---")
-            st.sidebar.markdown("### 📊 System Overview")
-            st.sidebar.metric("Total Students", stats['total_students'])
-            st.sidebar.metric("Avg Performance", f"{stats['average_performance']}%")
-            st.sidebar.metric("Avg Attendance", f"{stats['average_attendance']}%")
-        
-        st.sidebar.markdown("---")
-        st.sidebar.markdown("**Built with Streamlit**")
-
-    def show_main_dashboard(self):
-        st.markdown('<div class="alt-header-1">📊 Dashboard Overview</div>', unsafe_allow_html=True)
-        
-        stats = self.manager.get_statistics()
-        performance_analysis = self.manager.get_performance_analysis()
-        
-        if not stats:
-            st.markdown("""
-            <div class="info-message">
-                No student data available. Start by adding students to see analytics.
-            </div>
-            """, unsafe_allow_html=True)
-            return
-        
-        # Enhanced Metric Cards Row
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown(f"""
-            <div class="metric-card metric-card-1">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">🎓 TOTAL STUDENTS</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['total_students']}</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">Active Learners</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown(f"""
-            <div class="metric-card metric-card-2">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📈 AVG PERFORMANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['average_performance']}%</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">{stats['performance_trend']} Trend</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col3:
-            st.markdown(f"""
-            <div class="metric-card metric-card-3">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">✅ PASS RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">Overall Success</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Second Row of Metrics
-        col4, col5, col6 = st.columns(3)
-        
-        with col4:
-            st.markdown(f"""
-            <div class="metric-card metric-card-4">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">⭐ EXCELLENCE RATE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{performance_analysis.get('excellence_rate', 0):.1f}%</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">90%+ Performers</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col5:
-            st.markdown(f"""
-            <div class="metric-card metric-card-5">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📅 AVG ATTENDANCE</div>
-                <div style="font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #111827;">{stats['average_attendance']}%</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">Class Participation</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col6:
-            st.markdown(f"""
-            <div class="metric-card metric-card-6">
-                <div style="font-size: 0.9rem; color: #6B7280; margin-bottom: 0.5rem;">📚 TOP PERFORMER</div>
-                <div style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; color: #111827;">{stats['top_performer']}</div>
-                <div style="font-size: 0.8rem; color: #6B7280;">Leading Student</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Performance Analytics Section
-        st.markdown("---")
-        st.markdown('<div class="alt-header-2">📈 Performance Analytics</div>', unsafe_allow_html=True)
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            if any(stats['status_distribution'].values()):
-                status_data = stats['status_distribution']
-                colors = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444']
-                
-                fig_status = px.pie(
-                    values=list(status_data.values()),
-                    names=list(status_data.keys()),
-                    title="🎯 Student Performance Distribution",
-                    color_discrete_sequence=colors
-                )
-                fig_status.update_traces(
-                    textposition='inside',
-                    textinfo='percent+label',
-                    hoverinfo='label+percent+value',
-                    marker=dict(line=dict(color='white', width=2)),
-                    pull=[0.1 if max(status_data.values()) == value else 0 for value in status_data.values()]
-                )
-                fig_status.update_layout(
-                    showlegend=True,
-                    height=500,
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(size=12, color='#1F2937'),
-                    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
-                )
-                st.plotly_chart(fig_status, use_container_width=True)
-        
-        with col2:
-            if any(stats['grade_distribution'].values()):
-                grade_data = stats['grade_distribution']
-                colors = ['#10B981', '#3B82F6', '#F59E0B', '#F97316', '#EF4444']
-                
-                fig_grade = px.bar(
-                    x=list(grade_data.keys()),
-                    y=list(grade_data.values()),
-                    title="📊 Grade Distribution Analysis",
-                    color=list(grade_data.keys()),
-                    color_discrete_sequence=colors,
-                    text=list(grade_data.values())
-                )
-                fig_grade.update_layout(
-                    xaxis_title="Grade",
-                    yaxis_title="Number of Students",
-                    showlegend=False,
-                    height=500,
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(size=12, color='#1F2937')
-                )
-                fig_grade.update_traces(
-                    marker_line_color='white',
-                    marker_line_width=2,
-                    opacity=0.9,
-                    textposition='outside'
-                )
-                st.plotly_chart(fig_grade, use_container_width=True)
-
+            st.markdown("---")
+            st.markdown('<div class="card-title">📊 Quick Statistics</div>', unsafe_allow_html=True)
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.markdown(f"""
+                <div class="card">
+                    <div style="font-size: 24px; font-weight: bold; color: white;">{stats['total_students']}</div>
+                    <div>Total Students</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown(f"""
+                <div class="card">
+                    <div style="font-size: 24px; font-weight: bold; color: white;">{stats['average_performance']}%</div>
+                    <div>Average Performance</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown(f"""
+                <div class="card">
+                    <div style="font-size: 24px; font-weight: bold; color: white;">{stats['average_attendance']}%</div>
+                    <div>Average Attendance</div>
+                </div>
+                """, unsafe_allow_html=True)
+    
     def show_student_registration(self):
-        st.markdown('<div class="alt-header-1">👤 Student Registration</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">➕ Add New Student</div>', unsafe_allow_html=True)
         
         with st.form("student_registration_form", clear_on_submit=True):
-            with st.container():
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown('<div class="alt-header-3">👤 Personal Information</div>', unsafe_allow_html=True)
-                    name = st.text_input("Full Name *", placeholder="Enter student's full name", key="reg_name")
-                    age = st.number_input("Age *", min_value=15, max_value=70, value=18, key="reg_age")
-                    email = st.text_input("Email Address *", placeholder="student@institution.edu", key="reg_email")
-                    phone = st.text_input("Phone Number", placeholder="+1 (555) 123-4567", key="reg_phone")
-                
-                with col2:
-                    st.markdown('<div class="alt-header-3">🎓 Academic Information</div>', unsafe_allow_html=True)
-                    course = st.text_input("Course/Program *", placeholder="Computer Science", key="reg_course")
-                    department = st.selectbox("Department *", [
-                        "Computer Science", "Engineering", "Mathematics", "Physics", 
-                        "Chemistry", "Biology", "Business", "Arts", "Social Sciences",
-                        "Life Sciences", "Data Science", "Artificial Intelligence"
-                    ], key="reg_department")
-                    grade_options = [grade.value for grade in Grade]
-                    grade = st.selectbox("Current Grade *", grade_options, key="reg_grade")
-                    performance = st.slider("Academic Performance (%) *", 0, 100, 75, key="reg_performance")
-                    attendance = st.slider("Attendance Rate (%)", 0, 100, 95, key="reg_attendance")
-                    enrollment_date = st.date_input("Enrollment Date", value=datetime.now(), key="reg_date")
-                
-            st.markdown("***Required fields**")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                name = st.text_input("Full Name *", placeholder="Enter student's full name")
+                age = st.number_input("Age *", min_value=15, max_value=70, value=18)
+                email = st.text_input("Email Address *", placeholder="student@institution.edu")
+                phone = st.text_input("Phone Number", placeholder="+1 (555) 123-4567")
+            
+            with col2:
+                course = st.text_input("Course/Program *", placeholder="Computer Science")
+                department = st.selectbox("Department *", [
+                    "Computer Science", "Engineering", "Mathematics", "Physics", 
+                    "Chemistry", "Biology", "Business", "Arts", "Social Sciences",
+                    "Life Sciences", "Data Science", "Artificial Intelligence"
+                ])
+                grade_options = [grade.value for grade in Grade]
+                grade = st.selectbox("Current Grade *", grade_options)
+                performance = st.slider("Academic Performance (%) *", 0, 100, 75)
+                attendance = st.slider("Attendance Rate (%)", 0, 100, 95)
+                enrollment_date = st.date_input("Enrollment Date", value=datetime.now())
+            
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
                 submitted = st.form_submit_button("🚀 Register Student", use_container_width=True)
             
             if submitted:
-                with st.spinner("🔄 Registering student..."):
-                    time.sleep(1)
+                student_data = {
+                    'name': name,
+                    'age': age,
+                    'grade': grade,
+                    'email': email,
+                    'performance': performance,
+                    'phone': phone,
+                    'course': course,
+                    'department': department,
+                    'attendance': attendance
+                }
+                
+                errors = StudentValidator.validate_student_data(student_data)
+                
+                if errors:
+                    for error in errors:
+                        st.error(error)
+                else:
+                    student_id = self.manager.get_next_student_id()
+                    new_student = Student(
+                        student_id=student_id,
+                        name=name.strip(),
+                        age=int(age),
+                        grade=grade,
+                        email=email.strip(),
+                        performance=float(performance),
+                        phone=phone.strip(),
+                        course=course.strip(),
+                        department=department,
+                        enrollment_date=enrollment_date.strftime("%Y-%m-%d"),
+                        attendance=float(attendance)
+                    )
                     
-                    student_data = {
-                        'name': name,
-                        'age': age,
-                        'grade': grade,
-                        'email': email,
-                        'performance': performance,
-                        'phone': phone,
-                        'course': course,
-                        'department': department,
-                        'attendance': attendance
-                    }
-                    
-                    errors = StudentValidator.validate_student_data(student_data)
-                    
-                    if errors:
-                        for error in errors:
-                            st.markdown(f'<div class="error-message">{error}</div>', unsafe_allow_html=True)
+                    success, message = self.manager.add_student(new_student)
+                    if success:
+                        st.success(f"Student registered successfully! Student ID: {student_id}")
+                        st.balloons()
+                        time.sleep(2)
+                        st.session_state.current_page = "student_directory"
+                        st.rerun()
                     else:
-                        student_id = self.manager.get_next_student_id()
-                        new_student = Student(
-                            student_id=student_id,
-                            name=name.strip(),
-                            age=int(age),
-                            grade=grade,
-                            email=email.strip(),
-                            performance=float(performance),
-                            phone=phone.strip(),
-                            course=course.strip(),
-                            department=department,
-                            enrollment_date=enrollment_date.strftime("%Y-%m-%d"),
-                            attendance=float(attendance)
-                        )
-                        
-                        success, message = self.manager.add_student(new_student)
-                        if success:
-                            st.markdown(f'<div class="success-message">✅ Student registered successfully! Student ID: {student_id}</div>', unsafe_allow_html=True)
-                            st.balloons()
-                            time.sleep(2)
-                            st.session_state.current_page = "student_directory"
-                            st.rerun()
-                        else:
-                            st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-
+                        st.error(message)
+    
     def show_student_directory(self):
-        st.markdown('<div class="alt-header-1">📋 Student Directory</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">👥 Student Directory</div>', unsafe_allow_html=True)
         
-        # Enhanced Search and Filters
-        col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
+        # Search and filters
+        search_query = st.text_input("🔍 Search Students", placeholder="Search by name, email, course, department...")
         
+        col1, col2, col3 = st.columns(3)
         with col1:
-            search_query = st.text_input("🔍 Search Students", placeholder="Search by name, email, course, department...")
-        
-        with col2:
             status_filter = st.selectbox("Status", ["All"] + [status.value for status in PerformanceStatus])
-        
-        with col3:
+        with col2:
             grade_filter = st.selectbox("Grade", ["All"] + [grade.value for grade in Grade])
-        
-        with col4:
+        with col3:
             department_filter = st.selectbox("Department", ["All"] + sorted(list(set(s.department for s in self.manager.students))))
         
         # Get filtered students
@@ -1186,18 +954,11 @@ class ModernStudentManagementUI:
         if department_filter != "All":
             students = [s for s in students if s.department == department_filter]
         
-        self._display_students_table(students, "Student Records")
-
-    def _display_students_table(self, students, title):
         if not students:
-            st.markdown("""
-            <div class="info-message">
-                No student records found matching the current criteria.
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("No student records found matching the current criteria.")
             return
         
-        # Create enhanced dataframe
+        # Display students in a table
         data = []
         for student in students:
             status = student.calculate_status()
@@ -1212,7 +973,6 @@ class ModernStudentManagementUI:
                 'Performance': f"{student.performance}%",
                 'Attendance': f"{student.attendance}%",
                 'Status': status,
-                'Attendance Status': attendance_status,
                 'Course': student.course,
                 'Department': student.department,
                 'Phone': student.phone,
@@ -1220,426 +980,279 @@ class ModernStudentManagementUI:
             })
         
         df = pd.DataFrame(data)
+        st.dataframe(df, use_container_width=True)
         
-        st.markdown(f'<div class="alt-header-2">{title} ({len(students)} records)</div>', unsafe_allow_html=True)
+        # Add action buttons
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("➕ Add New Student"):
+                st.session_state.current_page = "student_registration"
+                st.rerun()
         
-        # Display with enhanced styling
-        for _, student_row in df.iterrows():
-            with st.container():
-                st.markdown('<div class="modern-card">', unsafe_allow_html=True)
-                
-                col1, col2, col3 = st.columns([2, 2, 1])
-                
-                with col1:
-                    st.markdown(f"**{student_row['Name']}** ({student_row['Student ID']})")
-                    st.markdown(f"📧 {student_row['Email']}")
-                    st.markdown(f"📞 {student_row['Phone']}")
-                
-                with col2:
-                    st.markdown(f"🎓 {student_row['Course']} - {student_row['Department']}")
-                    st.markdown(f"📅 Enrolled: {student_row['Enrollment Date']}")
-                    
-                    # Progress bars
-                    performance_pct = float(student_row['Performance'].replace('%', ''))
-                    attendance_pct = float(student_row['Attendance'].replace('%', ''))
-                    
-                    st.markdown("Performance:")
-                    st.progress(performance_pct / 100)
-                    
-                    st.markdown("Attendance:")
-                    st.progress(attendance_pct / 100)
-                
-                with col3:
-                    status_class = student_row['Status'].lower().replace(' ', '-').replace('⭐-', '').replace('👍-', '').replace('📊-', '').replace('🚨-', '')
-                    st.markdown(f'<div class="status-badge status-{status_class}">{student_row["Status"]}</div>', unsafe_allow_html=True)
-                    st.markdown(f"**{student_row['Grade']}**")
-                    st.markdown(f"**{student_row['Performance']}**")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Summary statistics
-        st.markdown("---")
-        st.markdown('<div class="alt-header-3">📊 Summary Statistics</div>', unsafe_allow_html=True)
-        
-        if students:
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                avg_age = sum(s.age for s in students) / len(students)
-                st.metric("Average Age", f"{avg_age:.1f} years")
-            with col2:
-                avg_perf = sum(s.performance for s in students) / len(students)
-                st.metric("Average Performance", f"{avg_perf:.1f}%")
-            with col3:
-                avg_att = sum(s.attendance for s in students) / len(students)
-                st.metric("Average Attendance", f"{avg_att:.1f}%")
-            with col4:
-                excellent_count = sum(1 for s in students if s.calculate_status() == PerformanceStatus.EXCELLENT.value)
-                st.metric("Excellent Students", excellent_count)
-
+        with col2:
+            if st.button("📊 View Analytics"):
+                st.session_state.current_page = "advanced_analytics"
+                st.rerun()
+    
     def show_advanced_analytics(self):
-        st.markdown('<div class="alt-header-1">📈 Advanced Analytics</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">📈 Advanced Analytics</div>', unsafe_allow_html=True)
         
         stats = self.manager.get_statistics()
         performance_analysis = self.manager.get_performance_analysis()
         
         if not stats:
-            st.markdown("""
-            <div class="info-message">
-                No data available for analytics.
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("No student data available. Start by adding students to see analytics.")
             return
         
-        # Correlation Analysis
-        st.markdown('<div class="alt-header-2">📈 Performance Insights</div>', unsafe_allow_html=True)
-        
-        col1, col2, col3 = st.columns(3)
+        # Key metrics
+        col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Performance Correlation with Attendance", 
-                     f"{performance_analysis.get('correlation', 0):.2f}",
-                     "Strong positive" if performance_analysis.get('correlation', 0) > 0.5 else "Weak correlation")
+            st.markdown(f"""
+            <div class="card">
+                <div style="font-size: 24px; font-weight: bold; color: white;">{stats['total_students']}</div>
+                <div>Total Students</div>
+            </div>
+            """, unsafe_allow_html=True)
         
         with col2:
-            st.metric("Median Performance", f"{performance_analysis.get('median_performance', 0):.1f}%")
+            st.markdown(f"""
+            <div class="card">
+                <div style="font-size: 24px; font-weight: bold; color: white;">{stats['average_performance']}%</div>
+                <div>Average Performance</div>
+            </div>
+            """, unsafe_allow_html=True)
         
         with col3:
-            st.metric("Performance Range", 
-                     f"{performance_analysis.get('min_performance', 0):.0f}-{performance_analysis.get('max_performance', 0):.0f}%")
+            st.markdown(f"""
+            <div class="card">
+                <div style="font-size: 24px; font-weight: bold; color: white;">{performance_analysis.get('pass_rate', 0):.1f}%</div>
+                <div>Pass Rate</div>
+            </div>
+            """, unsafe_allow_html=True)
         
-        # Detailed Distribution Analysis
-        st.markdown('<div class="alt-header-2">🎯 Detailed Distributions</div>', unsafe_allow_html=True)
+        with col4:
+            st.markdown(f"""
+            <div class="card">
+                <div style="font-size: 24px; font-weight: bold; color: white;">{stats['average_attendance']}%</div>
+                <div>Average Attendance</div>
+            </div>
+            """, unsafe_allow_html=True)
         
+        # Charts
         col1, col2 = st.columns(2)
         
         with col1:
-            if any(stats['attendance_distribution'].values()):
-                attendance_data = stats['attendance_distribution']
-                fig_attendance = px.bar(
-                    x=list(attendance_data.keys()),
-                    y=list(attendance_data.values()),
-                    title="📊 Attendance Status Distribution",
-                    color=list(attendance_data.keys()),
-                    color_discrete_sequence=['#10B981', '#3B82F6', '#F59E0B', '#EF4444']
+            if any(stats['status_distribution'].values()):
+                status_data = stats['status_distribution']
+                colors = ['#4CAF50', '#2196F3', '#FF9800', '#F44336']
+                
+                fig_status = px.pie(
+                    values=list(status_data.values()),
+                    names=list(status_data.keys()),
+                    title="Student Performance Distribution",
+                    color_discrete_sequence=colors
                 )
-                fig_attendance.update_layout(
-                    xaxis_title="Attendance Status",
-                    yaxis_title="Number of Students",
-                    showlegend=False,
-                    height=400,
-                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(color='#1F2937')
+                fig_status.update_traces(
+                    textposition='inside',
+                    textinfo='percent+label',
+                    hoverinfo='label+percent+value'
                 )
-                st.plotly_chart(fig_attendance, use_container_width=True)
+                fig_status.update_layout(
+                    paper_bgcolor='#1A1A1A',
+                    font=dict(color='white')
+                )
+                st.plotly_chart(fig_status, use_container_width=True)
         
         with col2:
-            if stats['department_distribution']:
-                dept_data = stats['department_distribution']
-                fig_dept = px.pie(
-                    values=list(dept_data.values()),
-                    names=list(dept_data.keys()),
-                    title="🏫 Department Distribution",
-                    hole=0.4
+            if any(stats['grade_distribution'].values()):
+                grade_data = stats['grade_distribution']
+                colors = ['#4CAF50', '#2196F3', '#FF9800', '#FF5722', '#F44336']
+                
+                fig_grade = px.bar(
+                    x=list(grade_data.keys()),
+                    y=list(grade_data.values()),
+                    title="Grade Distribution",
+                    color=list(grade_data.keys()),
+                    color_discrete_sequence=colors
                 )
-                fig_dept.update_layout(
-                    height=400,
-                    paper_bgcolor='rgba(255, 255, 255, 0.9)',
-                    font=dict(color='#1F2937')
+                fig_grade.update_layout(
+                    xaxis_title="Grade",
+                    yaxis_title="Number of Students",
+                    paper_bgcolor='#1A1A1A',
+                    font=dict(color='white')
                 )
-                st.plotly_chart(fig_dept, use_container_width=True)
-
+                st.plotly_chart(fig_grade, use_container_width=True)
+    
     def show_student_management(self):
-        st.markdown('<div class="alt-header-1">⚙️ Student Management</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">⚙️ Student Management</div>', unsafe_allow_html=True)
         
-        tab1, tab2, tab3 = st.tabs(["✏️ Update Records", "🗑️ Delete Records", "🎯 Bulk Operations"])
+        # Get all students
+        students = self.manager.get_all_students()
         
-        with tab1:
-            self._show_update_student_tab()
-        
-        with tab2:
-            self._show_delete_student_tab()
-        
-        with tab3:
-            self._show_bulk_operations_tab()
-
-    def _show_update_student_tab(self):
-        st.markdown('<div class="alt-header-2">Update Student Information</div>', unsafe_allow_html=True)
-        
-        if not self.manager.students:
-            st.markdown("""
-            <div class="info-message">
-                No students available for update.
-            </div>
-            """, unsafe_allow_html=True)
+        if not students:
+            st.info("No student records found.")
             return
         
-        student_id = st.selectbox(
-            "Select Student to Update",
-            options=[s.student_id for s in self.manager.students],
-            format_func=lambda x: f"{x} - {self.manager.get_student(x).name}",
-            key="update_select"
-        )
+        # Select a student to manage
+        student_options = {f"{s.student_id} - {s.name}": s.student_id for s in students}
+        selected_student_id = st.selectbox("Select a student to manage", list(student_options.keys()))
+        student_id = student_options[selected_student_id]
+        student = self.manager.get_student(student_id)
         
-        if student_id:
-            student = self.manager.get_student(student_id)
+        if student:
+            # Display student information
+            col1, col2 = st.columns(2)
             
+            with col1:
+                st.markdown(f"""
+                <div class="card">
+                    <div class="card-title">Student Information</div>
+                    <p><strong>Student ID:</strong> {student.student_id}</p>
+                    <p><strong>Name:</strong> {student.name}</p>
+                    <p><strong>Age:</strong> {student.age}</p>
+                    <p><strong>Email:</strong> {student.email}</p>
+                    <p><strong>Phone:</strong> {student.phone}</p>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown(f"""
+                <div class="card">
+                    <div class="card-title">Academic Information</div>
+                    <p><strong>Course:</strong> {student.course}</p>
+                    <p><strong>Department:</strong> {student.department}</p>
+                    <p><strong>Grade:</strong> {student.grade}</p>
+                    <p><strong>Performance:</strong> {student.performance}%</p>
+                    <p><strong>Attendance:</strong> {student.attendance}%</p>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Update student form
             with st.form("update_student_form"):
-                st.markdown('<div class="modern-card">', unsafe_allow_html=True)
+                st.markdown('<div class="card-title">Update Student Information</div>', unsafe_allow_html=True)
                 
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown('<div class="alt-header-3">👤 Personal Information</div>', unsafe_allow_html=True)
-                    new_name = st.text_input("Full Name", value=student.name)
-                    new_age = st.number_input("Age", min_value=15, max_value=70, value=student.age)
-                    new_email = st.text_input("Email", value=student.email)
-                    new_phone = st.text_input("Phone", value=student.phone)
+                    update_name = st.text_input("Full Name", value=student.name)
+                    update_age = st.number_input("Age", min_value=15, max_value=70, value=student.age)
+                    update_email = st.text_input("Email Address", value=student.email)
+                    update_phone = st.text_input("Phone Number", value=student.phone)
                 
                 with col2:
-                    st.markdown('<div class="alt-header-3">🎓 Academic Information</div>', unsafe_allow_html=True)
-                    new_course = st.text_input("Course", value=student.course)
-                    new_department = st.text_input("Department", value=student.department)
-                    new_grade = st.selectbox("Grade", [g.value for g in Grade], 
-                                           index=[g.value for g in Grade].index(student.grade))
-                    new_performance = st.slider("Performance", 0, 100, value=int(student.performance))
-                    new_attendance = st.slider("Attendance", 0, 100, value=int(student.attendance))
-                
-                st.markdown('</div>', unsafe_allow_html=True)
+                    update_course = st.text_input("Course/Program", value=student.course)
+                    update_department = st.selectbox("Department", [
+                        "Computer Science", "Engineering", "Mathematics", "Physics", 
+                        "Chemistry", "Biology", "Business", "Arts", "Social Sciences",
+                        "Life Sciences", "Data Science", "Artificial Intelligence"
+                    ], index=[
+                        "Computer Science", "Engineering", "Mathematics", "Physics", 
+                        "Chemistry", "Biology", "Business", "Arts", "Social Sciences",
+                        "Life Sciences", "Data Science", "Artificial Intelligence"
+                    ].index(student.department) if student.department in [
+                        "Computer Science", "Engineering", "Mathematics", "Physics", 
+                        "Chemistry", "Biology", "Business", "Arts", "Social Sciences",
+                        "Life Sciences", "Data Science", "Artificial Intelligence"
+                    ] else 0)
+                    grade_options = [grade.value for grade in Grade]
+                    update_grade = st.selectbox("Current Grade", grade_options, index=grade_options.index(student.grade) if student.grade in grade_options else 0)
+                    update_performance = st.slider("Academic Performance (%)", 0, 100, int(student.performance))
+                    update_attendance = st.slider("Attendance Rate (%)", 0, 100, int(student.attendance))
                 
                 col1, col2, col3 = st.columns([1, 2, 1])
                 with col2:
-                    update_clicked = st.form_submit_button("🔄 Update Student", use_container_width=True)
+                    update_submitted = st.form_submit_button("🔄 Update Student", use_container_width=True)
                 
-                if update_clicked:
-                    update_data = {
-                        'name': new_name,
-                        'age': new_age,
-                        'email': new_email,
-                        'phone': new_phone,
-                        'course': new_course,
-                        'department': new_department,
-                        'grade': new_grade,
-                        'performance': new_performance,
-                        'attendance': new_attendance
-                    }
+                if update_submitted:
+                    success, message = self.manager.update_student(
+                        student_id,
+                        name=update_name.strip(),
+                        age=int(update_age),
+                        grade=update_grade,
+                        email=update_email.strip(),
+                        performance=float(update_performance),
+                        phone=update_phone.strip(),
+                        course=update_course.strip(),
+                        department=update_department,
+                        attendance=float(update_attendance)
+                    )
                     
-                    errors = StudentValidator.validate_student_data(update_data)
-                    if errors:
-                        for error in errors:
-                            st.markdown(f'<div class="error-message">{error}</div>', unsafe_allow_html=True)
-                    else:
-                        success, message = self.manager.update_student(student_id, **update_data)
-                        if success:
-                            st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
-                            st.rerun()
-                        else:
-                            st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-
-    def _show_delete_student_tab(self):
-        st.markdown('<div class="alt-header-2">Delete Student Record</div>', unsafe_allow_html=True)
-        
-        if not self.manager.students:
-            st.markdown("""
-            <div class="info-message">
-                No students available for deletion.
-            </div>
-            """, unsafe_allow_html=True)
-            return
-        
-        student_id = st.selectbox(
-            "Select Student to Delete",
-            options=[s.student_id for s in self.manager.students],
-            format_func=lambda x: f"{x} - {self.manager.get_student(x).name}",
-            key="delete_select"
-        )
-        
-        if student_id:
-            student = self.manager.get_student(student_id)
-            
-            st.markdown(f"""
-            <div class="modern-card">
-                <h4 style="color: #1F2937;">Student Details</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div><strong>Name:</strong> {student.name}</div>
-                    <div><strong>Email:</strong> {student.email}</div>
-                    <div><strong>Course:</strong> {student.course}</div>
-                    <div><strong>Department:</strong> {student.department}</div>
-                    <div><strong>Performance:</strong> {student.performance}%</div>
-                    <div><strong>Attendance:</strong> {student.attendance}%</div>
-                    <div><strong>Status:</strong> {student.calculate_status()}</div>
-                    <div><strong>Enrollment:</strong> {student.enrollment_date}</div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.warning("⚠️ This action cannot be undone. The student record will be permanently deleted.")
-            
-            col1, col2, col3 = st.columns([1, 1, 1])
-            with col2:
-                if st.button("🗑️ Delete Student", use_container_width=True):
-                    success, message = self.manager.delete_student(student_id)
                     if success:
-                        st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
+                        st.success(message)
                         st.rerun()
                     else:
-                        st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-
-    def _show_bulk_operations_tab(self):
-        st.markdown('<div class="alt-header-2">Bulk Operations</div>', unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div class="info-message">
-            Select multiple students for bulk operations like deletion or batch updates.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if not self.manager.students:
-            st.markdown("""
-            <div class="info-message">
-                No students available for bulk operations.
-            </div>
-            """, unsafe_allow_html=True)
-            return
-        
-        # Multi-select for students
-        student_options = {f"{s.student_id} - {s.name}": s.student_id for s in self.manager.students}
-        selected_students = st.multiselect(
-            "Select Students for Bulk Operation",
-            options=list(student_options.keys()),
-            placeholder="Choose students..."
-        )
-        
-        if selected_students:
-            selected_ids = [student_options[student] for student in selected_students]
+                        st.error(message)
             
-            st.markdown(f"**Selected {len(selected_ids)} students for operation**")
-            
-            # Show selected students
-            with st.expander("📋 View Selected Students"):
-                for student_id in selected_ids:
-                    student = self.manager.get_student(student_id)
-                    if student:
-                        st.write(f"**{student.name}** ({student_id}) - {student.course} - {student.performance}%")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("🗑️ Delete Selected Students", use_container_width=True):
-                    st.warning(f"Are you sure you want to delete {len(selected_ids)} students?")
-                    confirm = st.checkbox("I confirm this bulk deletion")
-                    
-                    if confirm:
-                        success, message = self.manager.bulk_delete_students(selected_ids)
-                        if success:
-                            st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
-                            st.rerun()
-                        else:
-                            st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-
+            # Delete student button
+            if st.button("🗑️ Delete Student", type="secondary"):
+                if st.session_state.get('confirm_delete', False):
+                    success, message = self.manager.delete_student(student_id)
+                    if success:
+                        st.success(message)
+                        st.session_state.current_page = "student_directory"
+                        st.rerun()
+                    else:
+                        st.error(message)
+                    st.session_state.confirm_delete = False
+                else:
+                    st.session_state.confirm_delete = True
+                    st.warning("Are you sure you want to delete this student? Click the button again to confirm.")
+    
     def show_data_operations(self):
-        st.markdown('<div class="alt-header-1">💾 Data Operations</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">💾 Data Operations</div>', unsafe_allow_html=True)
         
-        tab1, tab2, tab3 = st.tabs(["📤 Export Data", "📥 Import Data", "⚙️ System Tools"])
+        tab1, tab2 = st.tabs(["Export Data", "Import Data"])
         
         with tab1:
-            st.markdown('<div class="alt-header-2">Export Student Data</div>', unsafe_allow_html=True)
-            st.markdown("""
-            <div class="modern-card">
-                Export all student records to CSV format for external analysis, reporting, or backup purposes.
-                The exported file will include all student information including performance metrics and attendance data.
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="card-title">📤 Export Student Data</div>', unsafe_allow_html=True)
             
-            col1, col2 = st.columns([1, 1])
-            
-            with col1:
-                if st.button("📥 Export to CSV", use_container_width=True):
-                    with st.spinner("Generating export file..."):
-                        success, message, csv_data = self.manager.export_to_csv()
-                        
-                        if success:
-                            st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
-                            
-                            # Create download link
-                            b64 = base64.b64encode(csv_data.encode()).decode()
-                            href = f'<a href="data:file/csv;base64,{b64}" download="student_records_export.csv" style="display: inline-block; padding: 0.5rem 1rem; background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">📥 Download CSV File</a>'
-                            st.markdown(href, unsafe_allow_html=True)
-                            
-                            # Show preview
-                            st.markdown('<div class="alt-header-3">📋 Data Preview</div>', unsafe_allow_html=True)
-                            df = pd.read_csv(io.StringIO(csv_data))
-                            st.dataframe(df.head(10), use_container_width=True)
-                        else:
-                            st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-            
-            with col2:
-                st.metric("Total Records", len(self.manager.students))
-                st.metric("Data Size", f"{(len(str(self.manager.students)) / 1024):.1f} KB")
+            if st.button("Export to CSV"):
+                success, message, csv_data = self.manager.export_to_csv()
+                if success:
+                    st.success(message)
+                    st.download_button(
+                        label="Download CSV",
+                        data=csv_data,
+                        file_name=f"student_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                        mime="text/csv"
+                    )
+                else:
+                    st.error(message)
         
         with tab2:
-            st.markdown('<div class="alt-header-2">Import Student Data</div>', unsafe_allow_html=True)
-            st.markdown("""
-            <div class="modern-card">
-                Import student records from CSV file. Ensure your CSV file follows the required format with columns:
-                name, age, grade, email, performance, phone, course, department, attendance
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="card-title">📥 Import Student Data</div>', unsafe_allow_html=True)
             
-            uploaded_file = st.file_uploader("Choose CSV file", type=['csv'], key="import_uploader")
+            uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
             
             if uploaded_file is not None:
-                # Show preview
-                df_preview = pd.read_csv(uploaded_file)
-                st.markdown('<div class="alt-header-3">📋 Uploaded File Preview</div>', unsafe_allow_html=True)
-                st.dataframe(df_preview.head(5), use_container_width=True)
+                # To convert to a string based IO:
+                stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
+                file_content = stringio.read()
                 
-                if st.button("🚀 Import Data", use_container_width=True):
-                    with st.spinner("Importing student data..."):
-                        # Read file content
-                        file_content = uploaded_file.getvalue().decode('utf-8')
-                        success, message, errors = self.manager.import_from_csv(file_content)
-                        
-                        if success:
-                            st.markdown(f'<div class="success-message">✅ {message}</div>', unsafe_allow_html=True)
-                            if errors:
-                                st.markdown('<div class="alt-header-3">⚠️ Import Warnings</div>', unsafe_allow_html=True)
-                                for error in errors[:10]:  # Show first 10 errors
-                                    st.markdown(f'<div class="warning-message">{error}</div>', unsafe_allow_html=True)
-                        else:
-                            st.markdown(f'<div class="error-message">❌ {message}</div>', unsafe_allow_html=True)
-        
-        with tab3:
-            st.markdown('<div class="alt-header-2">System Tools</div>', unsafe_allow_html=True)
-            st.markdown("""
-            <div class="modern-card">
-                Advanced system utilities for data management and maintenance.
-            </div>
-            """, unsafe_allow_html=True)
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("🔄 Clear Cache", use_container_width=True):
-                    self.manager.clear_cache()
-                    st.markdown('<div class="success-message">✅ Cache cleared successfully</div>', unsafe_allow_html=True)
-                
-                if st.button("📊 Refresh Statistics", use_container_width=True):
-                    self.manager.clear_cache()
-                    st.markdown('<div class="success-message">✅ Statistics refreshed</div>', unsafe_allow_html=True)
-                    st.rerun()
-            
-            with col2:
-                if st.button("🛡️ Data Integrity Check", use_container_width=True):
-                    # Simple data integrity check
-                    valid_students = all(s.performance >= 0 and s.performance <= 100 for s in self.manager.students)
-                    if valid_students:
-                        st.markdown('<div class="success-message">✅ All data integrity checks passed</div>', unsafe_allow_html=True)
+                if st.button("Import Data"):
+                    success, message, errors = self.manager.import_from_csv(file_content)
+                    if success:
+                        st.success(message)
+                        if errors:
+                            st.warning("Some rows had errors:")
+                            for error in errors:
+                                st.error(error)
+                        st.rerun()
                     else:
-                        st.markdown('<div class="error-message">❌ Data integrity issues found</div>', unsafe_allow_html=True)
-
+                        st.error(message)
+                        if errors:
+                            for error in errors:
+                                st.error(error)
+    
     def run(self):
-        self.show_sidebar_menu()
+        # Show header
+        self.show_header()
         
+        # Show sidebar
+        self.show_sidebar()
+        
+        # Show main content based on current page
         if st.session_state.current_page == "main_dashboard":
             self.show_main_dashboard()
         elif st.session_state.current_page == "student_registration":
@@ -1653,7 +1266,7 @@ class ModernStudentManagementUI:
         elif st.session_state.current_page == "data_operations":
             self.show_data_operations()
 
-# Run the application
+# Run the app
 if __name__ == "__main__":
     app = ModernStudentManagementUI()
     app.run()
