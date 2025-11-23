@@ -775,9 +775,8 @@ class ModernStudentManagementUI:
                 <li><a href="?page=add_student" class="{'active' if st.session_state.current_page == 'student_registration' else ''}">➕ Add Student</a></li>
                 <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 About Data</a></li>
                 <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
-
             </ul>
-                {current_time}
+                
             
             
         </div>
