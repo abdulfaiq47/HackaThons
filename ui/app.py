@@ -505,9 +505,6 @@ class ModernStudentManagementUI:
         }
         
         .sidebar-time {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 16px;
             text-align: center;
         }
@@ -751,8 +748,6 @@ class ModernStudentManagementUI:
             <div class="header-info">
                 <div class="welcome-message">Welcome: admin</div>
                 <div class="current-date">{current_date}</div>
-                <div class="sidebar-time">{current_time}</div>
-                
                 
             </div>
         </div>
@@ -777,9 +772,7 @@ class ModernStudentManagementUI:
                 <li><a href="?page=analytics" class="{'active' if st.session_state.current_page == 'advanced_analytics' else ''}">📈 About Data</a></li>
                 <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
             </ul>
-                
-            
-            
+            <div class="sidebar-time">{current_time}</div>
         </div>
         """, unsafe_allow_html=True)
         
