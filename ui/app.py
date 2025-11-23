@@ -757,10 +757,7 @@ class ModernStudentManagementUI:
         """, unsafe_allow_html=True)
         
         # Check for logout parameter
-        query_params = st.experimental_get_query_params()
-        if 'logout' in query_params and query_params['logout'][0] == 'true':
-            st.session_state.clear()
-            st.rerun()
+        
     
     def show_sidebar(self):
         # Get current time
@@ -779,7 +776,8 @@ class ModernStudentManagementUI:
                 <li><a href="?page=management" class="{'active' if st.session_state.current_page == 'student_management' else ''}">⚙️ Update Student</a></li>
                 
             </ul>
-            <div class="sidebar-time">{current_time}</div>
+            <div class="sidebar-time">Current Time: {current_time}</div>
+            
         </div>
         """, unsafe_allow_html=True)
         
