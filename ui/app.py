@@ -748,7 +748,6 @@ class ModernStudentManagementUI:
             <div class="header-info">
                 <div class="welcome-message">Welcome: admin</div>
                 <div class="current-date">{current_date}</div>
-                
             </div>
         </div>
         """, unsafe_allow_html=True)
